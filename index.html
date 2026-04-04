@@ -285,7 +285,7 @@ textarea.finp{resize:vertical;min-height:75px}
     <button class="sync-btn" onclick="syncToSheets()" id="syncBtn">
       <span>☁</span><span>Google Sheets Sync</span>
     </button>
-    <div class="sync-status" id="syncStatus">Son sync: —</div>
+    <div class="sync-status" id="syncStatus">Sheets bağlantısı hazırlanıyor...</div>
   </div>
 </nav>
 
@@ -701,8 +701,8 @@ textarea.finp{resize:vertical;min-height:75px}
     <div class="modal-body">
       <div class="fg" style="margin-bottom:14px">
         <label class="flbl">Apps Script Web App URL</label>
-        <input class="finp" id="sheetsUrl" placeholder="https://script.google.com/macros/s/..." oninput="saveSheetsUrl(this.value)">
-        <div style="font-size:11px;color:var(--t3);margin-top:6px">Google Apps Script'te yayınladığın URL'yi buraya yapıştır.</div>
+        <input class="finp" id="sheetsUrl" readonly value="https://script.google.com/macros/s/AKfycbzB-AMEbHTkxsAent0F_YMRKoMoRoE9HjfK4JbGLKGKRv2GSUTAhPxeHRQczxA3xGzO/exec">
+        <div style="font-size:11px;color:var(--t3);margin-top:6px">Apps Script URL artık doğrudan kod içine gömülü çalışıyor.</div>
       </div>
       <div style="background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:14px;font-size:12px;color:var(--t2);line-height:1.7">
         <strong style="color:var(--accent)">Kurulum adımları:</strong><br>
@@ -727,7 +727,9 @@ textarea.finp{resize:vertical;min-height:75px}
 <!-- ═══ SCRIPT ═══ -->
 <script>
 // ── CONFIG ────────────────────────────────────────────────────────
-let SHEETS_URL = localStorage.getItem('ag_sheets_url') || '';
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzB-AMEbHTkxsAent0F_YMRKoMoRoE9HjfK4JbGLKGKRv2GSUTAhPxeHRQczxA3xGzO/exec';
+const USE_SHEETS_AS_PRIMARY = true;
+let isRemoteReady = false;
 
 // ── DATA ──────────────────────────────────────────────────────────
 let vehicles = JSON.parse(localStorage.getItem('ag_v2_vehicles') || '[]');
@@ -893,14 +895,14 @@ function toggleBridge(id) {
   b.status=b.status==='odendi'?'bekliyor':'odendi';
   persist(); renderAll();
   notify(b.status==='odendi'?'✅ Ödendi':'⏳ Bekliyor olarak işaretlendi');
-  if(SHEETS_URL) apiPost({action:'updateBridge',bridge:b});
+  if(SHEETS_URL) pushSingleAction({action:'updateBridge',bridge:b});
 }
 
 function delBridge(id) {
   if(!confirm('Geçiş silinsin mi?'))return;
   bridges=bridges.filter(b=>b.id!==id);
   persist(); renderAll(); notify('🗑 Silindi');
-  if(SHEETS_URL) apiPost({action:'deleteBridge',id});
+  if(SHEETS_URL) pushSingleAction({action:'deleteBridge',id});
 }
 
 // ── REPORTS ──────────────────────────────────────────────────────
@@ -1107,7 +1109,7 @@ function saveVehicle() {
   else { vehicles.push(v); notify('✅ Araç eklendi'); }
 
   persist(); renderAll(); closeM('vehicleModal');
-  if(SHEETS_URL) apiPost({action:'saveVehicle',vehicle:v});
+  if(SHEETS_URL) pushSingleAction({action:'saveVehicle',vehicle:v});
 }
 
 function delVehicle(id) {
@@ -1115,7 +1117,7 @@ function delVehicle(id) {
   vehicles=vehicles.filter(v=>v.id!==id);
   bridges=bridges.filter(b=>b.vehicleId!==id);
   persist(); renderAll(); notify('🗑 Araç silindi');
-  if(SHEETS_URL) apiPost({action:'deleteVehicle',id});
+  if(SHEETS_URL) pushSingleAction({action:'deleteVehicle',id});
 }
 
 // ── EXPENSES ─────────────────────────────────────────────────────
@@ -1165,7 +1167,7 @@ function saveBridge() {
   const b={id:uid(),vehicleId,plate,date,point:document.getElementById('bPoint').value.trim(),amount:parseFloat(document.getElementById('bAmt').value)||0,status:document.getElementById('bStatus').value,note:document.getElementById('bNote').value.trim()};
   bridges.push(b);
   persist(); renderAll(); closeM('bridgeModal'); notify('✅ Geçiş kaydedildi');
-  if(SHEETS_URL) apiPost({action:'saveBridge',bridge:b});
+  if(SHEETS_URL) pushSingleAction({action:'saveBridge',bridge:b});
 }
 
 // ── DETAIL MODAL ──────────────────────────────────────────────────
@@ -1218,54 +1220,102 @@ function openDetail(id) {
 }
 
 // ── SHEETS SYNC ──────────────────────────────────────────────────
-function saveSheetsUrl(url) { SHEETS_URL=url; localStorage.setItem('ag_sheets_url',url); }
+function updateSyncStatus(text) {
+  const el = document.getElementById('syncStatus');
+  if (el) el.textContent = text;
+}
 
-async function syncToSheets() {
-  if(!SHEETS_URL) { openM('sheetsModal'); return; }
+async function syncToSheets(showToast = true) {
+  if(!SHEETS_URL) {
+    if(showToast) notify('Sheets URL tanımlı değil','err');
+    return { success:false, error:'Sheets URL tanımlı değil' };
+  }
   const btn=document.getElementById('syncBtn');
-  btn.classList.add('syncing');
-  btn.querySelector('span:last-child').textContent='Sync ediliyor...';
+  btn?.classList.add('syncing');
+  const btnLabel = btn?.querySelector('span:last-child');
+  if (btnLabel) btnLabel.textContent='Sync ediliyor...';
+  updateSyncStatus('Google Sheets ile senkronize ediliyor...');
   try {
     const res=await apiPost({action:'syncAll',vehicles,bridges});
     if(res?.success) {
-      notify('☁ Google Sheets ile senkronize edildi!','info');
-      document.getElementById('syncStatus').textContent='Son sync: '+new Date().toLocaleTimeString('tr-TR');
-    } else {
-      notify('⚠ Sync hatası: '+(res?.error||'Bilinmeyen'),'err');
+      isRemoteReady = true;
+      const nowText = new Date().toLocaleTimeString('tr-TR');
+      updateSyncStatus('Son sync: '+nowText);
+      if(showToast) notify('☁ Google Sheets ile senkronize edildi!','info');
+      return res;
     }
+    throw new Error(res?.error || 'Bilinmeyen hata');
   } catch(e) {
-    notify('⚠ Bağlantı hatası: '+e.message,'err');
+    updateSyncStatus('Sync hatası: '+e.message);
+    if(showToast) notify('⚠ Sync hatası: '+e.message,'err');
+    return { success:false, error:e.message };
+  } finally {
+    btn?.classList.remove('syncing');
+    if (btnLabel) btnLabel.textContent='Google Sheets Sync';
   }
-  btn.classList.remove('syncing');
-  btn.querySelector('span:last-child').textContent='Google Sheets Sync';
 }
 
-async function loadFromSheets() {
-  if(!SHEETS_URL) return;
+async function loadFromSheets(showToast = false) {
+  if(!SHEETS_URL) return false;
+  updateSyncStatus('Google Sheets verileri yükleniyor...');
   try {
-    const res=await fetch(SHEETS_URL+'?action=getAll');
-    const data=await res.json();
-    if(data.vehicles) { vehicles=data.vehicles; bridges=data.bridges||[]; persist(); renderAll(); notify('☁ Sheets\'ten yüklendi!','info'); }
-  } catch(e) { notify('Sheets yükleme hatası: '+e.message,'err'); }
+    const url = SHEETS_URL + '?action=getAll&_ts=' + Date.now();
+    const res = await fetch(url, { method:'GET' });
+    const data = await res.json();
+    if (data?.success === false) throw new Error(data.error || 'Veri alınamadı');
+    if (Array.isArray(data?.vehicles)) {
+      vehicles = data.vehicles;
+      bridges = Array.isArray(data.bridges) ? data.bridges : [];
+      isRemoteReady = true;
+      persist();
+      renderAll();
+      updateSyncStatus('Son veri kaynağı: Google Sheets');
+      if(showToast) notify('☁ Veriler Google Sheets üzerinden yüklendi','info');
+      return true;
+    }
+    throw new Error('Geçerli veri dönmedi');
+  } catch(e) {
+    isRemoteReady = false;
+    updateSyncStatus('Sheets erişilemedi, yerel veri kullanılıyor');
+    if(showToast) notify('⚠ Sheets erişilemedi, yerel kayıtlar gösteriliyor','err');
+    return false;
+  }
 }
 
 async function testConnection() {
-  if(!SHEETS_URL) { notify('URL girilmedi','err'); return; }
   try {
-    const res=await fetch(SHEETS_URL+'?action=getAll');
-    const data=await res.json();
-    notify(data.error?'❌ Hata: '+data.error:'✅ Bağlantı başarılı!', data.error?'err':'ok');
-  } catch(e) { notify('❌ Bağlanamadı: '+e.message,'err'); }
+    const ok = await loadFromSheets(false);
+    notify(ok ? '✅ Bağlantı başarılı!' : '❌ Bağlantı kurulamadı', ok ? 'ok' : 'err');
+  } catch(e) {
+    notify('❌ Bağlanamadı: '+e.message,'err');
+  }
+}
+
+async function pushSingleAction(body, successMessage='') {
+  if (!SHEETS_URL) return { success:false, error:'Sheets URL yok' };
+  try {
+    const res = await apiPost(body);
+    if (res?.success) {
+      isRemoteReady = true;
+      updateSyncStatus('Son işlem: ' + new Date().toLocaleTimeString('tr-TR'));
+      if (successMessage) notify(successMessage, 'ok');
+      return res;
+    }
+    throw new Error(res?.error || 'İşlem başarısız');
+  } catch(e) {
+    notify('⚠ Sheets işlem hatası: ' + e.message, 'err');
+    return { success:false, error:e.message };
+  }
 }
 
 async function apiPost(body) {
-  if(!SHEETS_URL) return null;
-  try {
-    const r=await fetch(SHEETS_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    return await r.json();
-  } catch(e) { return null; }
+  const r = await fetch(SHEETS_URL, {
+    method:'POST',
+    headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body:JSON.stringify(body)
+  });
+  return await r.json();
 }
-
 // ── FILTER DROPDOWNS ─────────────────────────────────────────────
 function updateFilterDropdowns() {
   const brands=[...new Set(vehicles.map(v=>v.brand).filter(Boolean))].sort();
@@ -1329,14 +1379,11 @@ function set(id,html){const el=document.getElementById(id);if(el)el.innerHTML=ht
 function emptyRow(cols,msg='Kayıt bulunamadı'){return`<tr><td colspan="${cols}"><div class="empty"><div class="empty-ico">🔍</div><div class="empty-txt">${msg}</div></div></td></tr>`;}
 function nada(){return'<div style="color:var(--t3);font-size:13px;padding:10px 0">Yeterli veri yok.</div>';}
 
-// ── Sheets URL yükle ──────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded',()=>{
-  const u=localStorage.getItem('ag_sheets_url');
-  if(u)document.getElementById('sheetsUrl').value=u;
-});
-
 // ── INIT ──────────────────────────────────────────────────────────
-renderAll();
+document.addEventListener('DOMContentLoaded', async ()=>{
+  renderAll();
+  await loadFromSheets(false);
+});
 </script>
 </body>
 </html>
