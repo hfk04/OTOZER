@@ -281,12 +281,6 @@ textarea.finp{resize:vertical;min-height:75px}
     </div>
   </div>
 
-  <div class="sidebar-sync">
-    <button class="sync-btn" onclick="syncToSheets()" id="syncBtn">
-      <span>☁</span><span>Google Sheets Sync</span>
-    </button>
-    <div class="sync-status" id="syncStatus">Sheets bağlantısı hazırlanıyor...</div>
-  </div>
 </nav>
 
 <!-- ═══ MAIN ═══ -->
@@ -687,36 +681,6 @@ textarea.finp{resize:vertical;min-height:75px}
     <div class="modal-ftr">
       <button class="btn btn-ghost" onclick="closeM('bridgeModal')">İptal</button>
       <button class="btn btn-primary" onclick="saveBridge()">💾 Kaydet</button>
-    </div>
-  </div>
-</div>
-
-<!-- SHEETS AYAR -->
-<div class="overlay" id="sheetsModal">
-  <div class="modal modal-sm">
-    <div class="modal-hdr">
-      <div class="modal-title">GOOGLE SHEETS BAĞLANTISI</div>
-      <button class="modal-close" onclick="closeM('sheetsModal')">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="fg" style="margin-bottom:14px">
-        <label class="flbl">Apps Script Web App URL</label>
-        <input class="finp" id="sheetsUrl" readonly value="https://script.google.com/macros/s/AKfycbzB-AMEbHTkxsAent0F_YMRKoMoRoE9HjfK4JbGLKGKRv2GSUTAhPxeHRQczxA3xGzO/exec">
-        <div style="font-size:11px;color:var(--t3);margin-top:6px">Apps Script URL artık doğrudan kod içine gömülü çalışıyor.</div>
-      </div>
-      <div style="background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:14px;font-size:12px;color:var(--t2);line-height:1.7">
-        <strong style="color:var(--accent)">Kurulum adımları:</strong><br>
-        1. Google Drive → Yeni → Google E-Tablolar<br>
-        2. Uzantılar → Apps Script<br>
-        3. <code style="color:var(--accent2)">kod.gs</code> içeriğini yapıştır<br>
-        4. <code>SHEET_ID</code>'yi E-Tablo URL'sindeki ID ile değiştir<br>
-        5. Dağıt → Yeni dağıtım → Web uygulaması<br>
-        6. "Herkes" erişimi ver → URL'yi kopyala
-      </div>
-    </div>
-    <div class="modal-ftr">
-      <button class="btn btn-ghost" onclick="closeM('sheetsModal')">Kapat</button>
-      <button class="btn btn-primary" onclick="testConnection()">🔗 Bağlantıyı Test Et</button>
     </div>
   </div>
 </div>
