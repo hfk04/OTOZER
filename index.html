@@ -148,9 +148,12 @@ textarea.finp{resize:vertical;min-height:75px}
 /* AUTOCOMPLETE */
 .ac-drop{position:absolute;top:100%;left:0;right:0;z-index:250;background:var(--s2);border:1px solid var(--border2);border-radius:var(--r);box-shadow:var(--shadow);display:none;max-height:180px;overflow-y:auto;margin-top:2px}
 .ac-drop.open{display:block}
-.ac-item{padding:9px 12px;cursor:pointer;font-size:13px;color:var(--text);transition:background .1s;border-bottom:1px solid var(--border)}
+.ac-item{padding:0;cursor:pointer;font-size:13px;color:var(--text);transition:background .1s;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px}
 .ac-item:last-child{border-bottom:none}
 .ac-item:hover,.ac-item.focused{background:var(--s3)}
+.ac-val{padding:9px 12px;flex:1;min-width:0}
+.ac-edit{border:none;background:none;color:var(--t3);cursor:pointer;font-size:12px;padding:8px 10px;flex-shrink:0}
+.ac-edit:hover{color:var(--accent)}
 /* EXPENSE */
 .exp-list{display:flex;flex-direction:column;gap:7px;margin-top:10px}
 .exp-item{display:flex;align-items:center;gap:10px;background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:10px 13px}
@@ -723,19 +726,52 @@ function getModels(){const br=document.getElementById('fBrand')?.value||'';retur
 function getSellers(){return[...new Set(vehicles.map(v=>v.seller).filter(Boolean))].sort();}
 function getBuyers(){return[...new Set(vehicles.map(v=>v.buyer).filter(Boolean))].sort();}
 function getKoOwners(){return[...new Set(vehicles.map(v=>v.konsinyeOwner).filter(Boolean))].sort();}
+function escJS(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
+function editableFieldType(inpId){
+  if(inpId==='fBrand')return 'brand';
+  if(inpId==='fModel')return 'model';
+  return '';
+}
 function acIn(inpId,dropId,listFn){
   const inp=document.getElementById(inpId),drop=document.getElementById(dropId);
   if(!inp||!drop)return;
-  const val=inp.value.toLowerCase();
+  const val=inp.value.toLowerCase().trim();
   const items=listFn().filter(s=>s.toLowerCase().includes(val));
   if(!items.length){drop.classList.remove('open');return;}
-  drop.innerHTML=items.slice(0,8).map(s=>`<div class="ac-item" onmousedown="acSel('${inpId}','${dropId}','${s.replace(/'/g,"\\'")}')">${s}</div>`).join('');
+  const fieldType=editableFieldType(inpId);
+  drop.innerHTML=items.slice(0,8).map(s=>{
+    const safe=escJS(s);
+    return `<div class="ac-item">
+      <div class="ac-val" onmousedown="acSel('${inpId}','${dropId}','${safe}')">${s}</div>
+      ${fieldType?`<button type="button" class="ac-edit" title="Düzenle" onmousedown="event.preventDefault();event.stopPropagation();renameSuggestion('${fieldType}','${safe}','${inpId}','${dropId}')">✎</button>`:''}
+    </div>`;
+  }).join('');
   drop.classList.add('open');
 }
 function acSel(inpId,dropId,val){document.getElementById(inpId).value=val;document.getElementById(dropId).classList.remove('open');if(inpId==='fBrand')acIn('fModel','ac-model',getModels);}
-document.addEventListener('click',e=>{document.querySelectorAll('.ac-drop').forEach(d=>{const prev=d.previousElementSibling;if(prev&&!prev.contains(e.target)&&!d.contains(e.target))d.classList.remove('open');});});
+function renameSuggestion(fieldType,oldVal,inpId,dropId){
+  const newVal=(prompt('Yeni değer:', oldVal)||'').trim();
+  if(!newVal || newVal===oldVal)return;
+  let changed=0;
+  vehicles.forEach(v=>{
+    if(fieldType==='brand' && v.brand===oldVal){v.brand=newVal;changed++;}
+    if(fieldType==='model' && v.model===oldVal){v.model=newVal;changed++;}
+  });
+  if(!changed){notify('Değiştirilecek kayıt bulunamadı','err');return;}
+  const inp=document.getElementById(inpId);
+  if(inp && inp.value===oldVal) inp.value=newVal;
+  persist();
+  renderAll();
+  if(fieldType==='brand' && document.getElementById('fBrand')?.value===newVal){
+    acIn('fModel','ac-model',getModels);
+  }
+  acIn(inpId,dropId,inpId==='fBrand'?getBrands:getModels);
+  notify('✅ Öneri güncellendi');
+  if(SHEETS_URL) pushAllData();
+}
+document.addEventListener('click',e=>{document.querySelectorAll('.ac-drop').forEach(d=>{if(!d.parentElement.contains(e.target))d.classList.remove('open');});});
 
-// ── YIL SEÇİCİ ──────────────────────────────────────────────────
+// // ── YIL SEÇİCİ ──────────────────────────────────────────────────
 function buildYG(){
   const cy=new Date().getFullYear(),sel=document.getElementById('fYear').value;
   const years=[];
@@ -886,6 +922,13 @@ async function loadFromSheets(toast=false){
 async function pushSingle(body){
   if(!SHEETS_URL)return;
   try{await apiPost(body);updSync('Son: '+new Date().toLocaleTimeString('tr-TR'));}catch(e){}
+}
+async function pushAllData(){
+  if(!SHEETS_URL)return;
+  try{
+    await apiPost({action:'syncAll',vehicles,giderler});
+    updSync('Son: '+new Date().toLocaleTimeString('tr-TR'));
+  }catch(e){}
 }
 async function apiPost(body){
   const r=await fetch(SHEETS_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});
