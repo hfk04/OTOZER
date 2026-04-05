@@ -28,6 +28,19 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .topbar{position:sticky;top:0;z-index:100;background:rgba(9,9,12,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 28px;height:58px;display:flex;align-items:center;gap:14px}
 .topbar-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1.5px;white-space:nowrap}
 .topbar-right{margin-left:auto;display:flex;gap:9px;align-items:center}
+
+.mobile-menu-btn{display:none;width:42px;height:42px;border:1px solid var(--border);border-radius:12px;background:var(--s2);color:var(--text);align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.mobile-menu-btn:hover{background:var(--s3);border-color:var(--border2)}
+.mobile-menu-ico{position:relative;width:18px;height:14px;display:block}
+.mobile-menu-ico span{position:absolute;left:0;right:0;height:2px;background:currentColor;border-radius:2px;transition:transform .2s,opacity .2s,top .2s}
+.mobile-menu-ico span:nth-child(1){top:0}
+.mobile-menu-ico span:nth-child(2){top:6px}
+.mobile-menu-ico span:nth-child(3){top:12px}
+body.mobile-nav-open .mobile-menu-ico span:nth-child(1){top:6px;transform:rotate(45deg)}
+body.mobile-nav-open .mobile-menu-ico span:nth-child(2){opacity:0}
+body.mobile-nav-open .mobile-menu-ico span:nth-child(3){top:6px;transform:rotate(-45deg)}
+.mobile-nav-backdrop{display:none}
+
 .search-mega{position:relative;flex:1;max-width:480px}
 .search-mega input{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:9px 14px 9px 38px;color:var(--text);font-size:13.5px;font-family:inherit;outline:none;transition:all .2s}
 .search-mega input:focus{border-color:var(--accent);background:var(--s3);box-shadow:0 0 0 3px rgba(232,160,32,.1)}
@@ -211,14 +224,32 @@ textarea.finp{resize:vertical;min-height:75px}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:var(--t3)}
 @media(max-width:860px){
-  .sidebar{width:56px}
-  .nav-item>span:not(.nav-icon):not(.nav-badge),.logo-sub,.logo-ag,.logo-pro{display:none}
-  .nav-icon{font-size:18px;width:auto}
-  .nav-item{justify-content:center;padding:13px}
-  .main{margin-left:56px}
+  .mobile-menu-btn{display:inline-flex}
+  .mobile-nav-backdrop{display:block;position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);z-index:240;opacity:0;pointer-events:none;transition:opacity .22s ease}
+  body.mobile-nav-open .mobile-nav-backdrop{opacity:1;pointer-events:auto}
+  .sidebar{width:min(82vw,290px);transform:translateX(-100%);transition:transform .22s ease;z-index:260;box-shadow:var(--shadow)}
+  body.mobile-nav-open .sidebar{transform:translateX(0)}
+  .main{margin-left:0}
+  .topbar{padding:0 14px;height:64px;gap:10px}
+  .topbar-title{font-size:18px;letter-spacing:1px}
+  .topbar-right{gap:8px;min-width:0;flex:1}
+  .search-mega{max-width:none;min-width:0;flex:1}
+  .search-mega input{font-size:13px;padding-left:34px;padding-right:10px}
+  .btn-primary{padding:10px 14px}
   .stats-grid{grid-template-columns:1fr 1fr}
   .fg2,.fg3{grid-template-columns:1fr}
   .two-col{grid-template-columns:1fr}
+  .page{padding:18px 14px}
+  .tbl-wrap{overflow:auto}
+}
+@media(max-width:640px){
+  .topbar{align-items:center}
+  .topbar-right .btn-primary{font-size:12px;padding:10px 12px}
+  .topbar-title{font-size:16px}
+  .search-mega input{min-width:0}
+  .stats-grid{grid-template-columns:1fr}
+  .sec-hdr{gap:10px;align-items:flex-start}
+  .sec-hdr .btn{padding:8px 12px}
 }
 </style>
 </head>
@@ -244,9 +275,13 @@ textarea.finp{resize:vertical;min-height:75px}
     <div class="nav-item" onclick="goPage('reports')"><span class="nav-icon">📈</span><span>Raporlar</span></div>
   </div>
 </nav>
+<div class="mobile-nav-backdrop" id="mobileNavBackdrop" onclick="closeMobileNav()"></div>
 
 <div class="main">
   <div class="topbar">
+    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileNav()" aria-label="Menüyü aç/kapat">
+      <span class="mobile-menu-ico"><span></span><span></span><span></span></span>
+    </button>
     <div class="topbar-title" id="pageTitle">ANA SAYFA</div>
     <div class="topbar-right">
       <div class="search-mega" id="megaWrap">
@@ -439,7 +474,7 @@ textarea.finp{resize:vertical;min-height:75px}
       <div class="fsec"><div class="fsec-ttl">ALIŞ BİLGİLERİ</div>
         <div class="fg2">
           <div class="fg"><label class="flbl">Alış Tarihi *</label><input class="finp" type="date" id="fBuyDate"></div>
-          <div class="fg"><label class="flbl">Alış Fiyatı (₺) *</label><input class="finp" type="number" id="fBuyPrice" placeholder="350000"></div>
+          <div class="fg"><label class="flbl">Alış Fiyatı (₺) *</label><input class="finp" type="text" id="fBuyPrice" placeholder="350000" inputmode="numeric" autocomplete="off"></div>
           <div class="fg"><label class="flbl">Alınan Kişi / Firma</label><input class="finp" id="fSeller" placeholder="Ali Yılmaz..." autocomplete="off" oninput="acIn('fSeller','ac-seller',getSellers)" onfocus="acIn('fSeller','ac-seller',getSellers)"><div class="ac-drop" id="ac-seller"></div></div>
           <div class="fg"><label class="flbl">Alınan Şehir</label><input class="finp" id="fBuyCity" placeholder="İstanbul, Ankara..."></div>
           <div class="fg full"><label class="flbl">Alınan Kişi Tel / Not</label><input class="finp" id="fSellerNote" placeholder="0532 xxx xx xx..."></div>
@@ -449,7 +484,7 @@ textarea.finp{resize:vertical;min-height:75px}
       <div class="fsec"><div class="fsec-ttl">SATIŞ BİLGİLERİ <span style="color:var(--t3);font-size:9px;text-transform:none;font-weight:400">(doldurulursa otomatik satıldı)</span></div>
         <div class="fg2">
           <div class="fg"><label class="flbl">Satış Tarihi</label><input class="finp" type="date" id="fSellDate"></div>
-          <div class="fg"><label class="flbl">Satış Fiyatı (₺)</label><input class="finp" type="number" id="fSellPrice" placeholder="420000"></div>
+          <div class="fg"><label class="flbl">Satış Fiyatı (₺)</label><input class="finp" type="text" id="fSellPrice" placeholder="420000" inputmode="numeric" autocomplete="off"></div>
           <div class="fg"><label class="flbl">Satılan Kişi</label><input class="finp" id="fBuyer" placeholder="Mehmet Demir..." autocomplete="off" oninput="acIn('fBuyer','ac-buyer',getBuyers)" onfocus="acIn('fBuyer','ac-buyer',getBuyers)"><div class="ac-drop" id="ac-buyer"></div></div>
           <div class="fg"><label class="flbl">Satılan Kişi Tel</label><input class="finp" id="fBuyerTel" placeholder="0532 xxx xx xx..."></div>
           <div class="fg full"><label class="flbl">Satış Notu</label><textarea class="finp" id="fSellNote" placeholder="Garanti, eksik parça..."></textarea></div>
@@ -461,7 +496,7 @@ textarea.finp{resize:vertical;min-height:75px}
       <div class="fsec"><div class="fsec-ttl">MASRAF EKLE</div>
         <div class="fg3">
           <div class="fg"><label class="flbl">Tür</label><select class="finp" id="fExpType"><option value="">Seç...</option><option>Tamir / Bakım</option><option>Boya / Kaporta</option><option>Lastik</option><option>Döşeme / Detay</option><option>Ekspertiz</option><option>Sigorta</option><option>Vergi / Harç</option><option>Taşıma / Çekici</option><option>Diğer</option></select></div>
-          <div class="fg"><label class="flbl">Tutar (₺)</label><input class="finp" type="number" id="fExpAmt" placeholder="2500"></div>
+          <div class="fg"><label class="flbl">Tutar (₺)</label><input class="finp" type="text" id="fExpAmt" placeholder="2500" inputmode="numeric" autocomplete="off"></div>
           <div class="fg"><label class="flbl">Tarih</label><input class="finp" type="date" id="fExpDate"></div>
         </div>
         <div class="fg" style="margin-top:10px"><label class="flbl">Açıklama</label><input class="finp" id="fExpDesc" placeholder="Ön cam değişimi..."></div>
@@ -493,7 +528,7 @@ textarea.finp{resize:vertical;min-height:75px}
         <div class="fg"><label class="flbl">Kategori *</label><select class="finp" id="gKat"><option value="">Seç...</option><option>Kira</option><option>Personel</option><option>HGS / OGS</option><option>Vergi</option><option>Ceza</option><option>Elektrik / Su / Doğalgaz</option><option>Muhasebe</option><option>Reklam</option><option>Diğer</option></select></div>
         <div class="fg"><label class="flbl">Tarih *</label><input class="finp" type="date" id="gTarih"></div>
         <div class="fg full"><label class="flbl">Açıklama</label><input class="finp" id="gAciklama" placeholder="Ocak kirası, SGK..."></div>
-        <div class="fg"><label class="flbl">Tutar (₺) *</label><input class="finp" type="number" id="gTutar" placeholder="15000"></div>
+        <div class="fg"><label class="flbl">Tutar (₺) *</label><input class="finp" type="text" id="gTutar" placeholder="15000" inputmode="numeric" autocomplete="off"></div>
         <div class="fg"><label class="flbl">Ödeme Şekli</label><select class="finp" id="gOdeme"><option>Nakit</option><option>Banka</option><option>Kredi Kartı</option><option>EFT/Havale</option></select></div>
       </div>
     </div>
@@ -521,12 +556,19 @@ function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2
 // ── NAV ──────────────────────────────────────────────────────────
 const PTITLES={dashboard:'ANA SAYFA',search:'HIZLI ARAMA',vehicles:'STOK ARAÇLAR',sold:'SATILAN ARAÇLAR',all:'TÜM ARAÇLAR',expenses:'ARAÇ MASRAFLARI',giderler:'GENEL GİDERLER',reports:'RAPORLAR'};
 const PAGES=['dashboard','search','vehicles','sold','all','expenses','giderler','reports'];
+function toggleMobileNav(force){
+  const willOpen = typeof force==='boolean' ? force : !document.body.classList.contains('mobile-nav-open');
+  document.body.classList.toggle('mobile-nav-open', willOpen);
+}
+function closeMobileNav(){ toggleMobileNav(false); }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeMobileNav(); });
 function goPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('page-'+id)?.classList.add('active');
   document.querySelectorAll('.nav-item')[PAGES.indexOf(id)]?.classList.add('active');
   document.getElementById('pageTitle').textContent=PTITLES[id]||'';
+  closeMobileNav();
   renderAll();
 }
 
@@ -682,9 +724,9 @@ function renderReports(){
 function ar(k,v,c){return`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="font-size:13px;color:var(--t2)">${k}</span><span class="mono" style="color:${c};font-size:14px">${v}</span></div>`;}
 
 // ── GİDER ────────────────────────────────────────────────────────
-function openGiderModal(){document.getElementById('gTarih').value=today();document.getElementById('gTutar').value='';document.getElementById('gAciklama').value='';document.getElementById('gKat').value='';openM('giderModal');}
+function openGiderModal(){document.getElementById('gTarih').value=today();document.getElementById('gTutar').value='';document.getElementById('gAciklama').value='';document.getElementById('gKat').value='';bindMoneyInputs();openM('giderModal');}
 function saveGider(){
-  const kat=document.getElementById('gKat').value,tarih=document.getElementById('gTarih').value,amount=parseFloat(document.getElementById('gTutar').value)||0;
+  const kat=document.getElementById('gKat').value,tarih=document.getElementById('gTarih').value,amount=moneyParse(document.getElementById('gTutar').value);
   if(!kat||!tarih||!amount){notify('❗ Kategori, tarih ve tutar zorunlu','err');return;}
   const g={id:uid(),kat,tarih,amount,aciklama:document.getElementById('gAciklama').value.trim(),odeme:document.getElementById('gOdeme').value,createdAt:Date.now()};
   giderler.push(g);persist();renderAll();closeM('giderModal');notify('✅ Gider kaydedildi');
@@ -801,7 +843,7 @@ function openAddModal(){
   clearForm();setVT('galeri');
   document.getElementById('fBuyDate').value=today();
   document.getElementById('fExpDate').value=today();
-  renderExpList();openM('vehicleModal');
+  renderExpList();bindMoneyInputs();openM('vehicleModal');
 }
 function editVehicle(id){
   const v=vehicles.find(x=>x.id===id);if(!v)return;
@@ -810,20 +852,20 @@ function editVehicle(id){
   setVT(v.vtype||'galeri');
   document.getElementById('fKoOwner').value=v.konsinyeOwner||'';
   const FM={fPlate:'plate',fBrand:'brand',fModel:'model',fKm:'km',fBuyPrice:'buyPrice',fSeller:'seller',fBuyCity:'buyCity',fSellerNote:'sellerNote',fSellPrice:'sellPrice',fBuyer:'buyer',fBuyerTel:'buyerTel',fSellNote:'sellNote',fNotes:'notes',fColor:'color',fFuel:'fuel',fGear:'gear',fBody:'body'};
-  Object.entries(FM).forEach(([el,key])=>{const e=document.getElementById(el);if(e)e.value=v[key]||'';});
+  Object.entries(FM).forEach(([el,key])=>{const e=document.getElementById(el);if(!e)return; const raw=v[key]||''; e.value=['fBuyPrice','fSellPrice'].includes(el)?moneyFormatInputValue(raw):raw;});
   document.getElementById('fBuyDate').value=normDate(v.buyDate);
   document.getElementById('fSellDate').value=normDate(v.sellDate);
   document.getElementById('fYear').value=v.year||'';
-  tempExp=[...(v.expenses||[])];renderExpList();closeM('detailModal');openM('vehicleModal');
+  tempExp=[...(v.expenses||[])];renderExpList();bindMoneyInputs();closeM('detailModal');openM('vehicleModal');
 }
 function editCurrent(){editVehicle(detailId);}
 function clearForm(){document.querySelectorAll('#vehicleModal .finp').forEach(el=>{if(el.tagName!=='SELECT')el.value='';else el.selectedIndex=0;});tempExp=[];}
 function saveVehicle(){
   const g=id=>document.getElementById(id)?.value?.trim();
-  const plate=(g('fPlate')||'').toUpperCase(),brand=g('fBrand')||'',buyDateRaw=g('fBuyDate')||'',buyPrice=parseFloat(g('fBuyPrice'))||0;
+  const plate=(g('fPlate')||'').toUpperCase(),brand=g('fBrand')||'',buyDateRaw=g('fBuyDate')||'',buyPrice=moneyParse(g('fBuyPrice'));
   const buyDate=normDate(buyDateRaw)||buyDateRaw;
   if(!plate||!brand||!buyDate){notify('❗ Plaka, marka ve alış tarihi zorunlu!','err');return;}
-  const sellDate=normDate(g('fSellDate'))||'',sellPrice=parseFloat(g('fSellPrice'))||0;
+  const sellDate=normDate(g('fSellDate'))||'',sellPrice=moneyParse(g('fSellPrice'));
   const v={
     id:editId||uid(),vtype:_curVT,plate,brand,
     model:g('fModel')||'',year:g('fYear')||'',km:parseFloat(g('fKm'))||0,
@@ -846,7 +888,7 @@ function delVehicle(id){if(!confirm('Bu araç silinsin mi?'))return;vehicles=veh
 // ── EXPENSES ─────────────────────────────────────────────────────
 const EICO={'Tamir / Bakım':'🔧','Boya / Kaporta':'🎨','Lastik':'🔄','Döşeme / Detay':'✨','Ekspertiz':'🔍','Sigorta':'🛡️','Vergi / Harç':'📋','Taşıma / Çekici':'🚛','Diğer':'💰'};
 function addExp(){
-  const type=document.getElementById('fExpType').value,amt=parseFloat(document.getElementById('fExpAmt').value)||0;
+  const type=document.getElementById('fExpType').value,amt=moneyParse(document.getElementById('fExpAmt').value);
   const date=document.getElementById('fExpDate').value||today(),desc=document.getElementById('fExpDesc').value.trim();
   if(!type||!amt){notify('❗ Tür ve tutar zorunlu','err');return;}
   tempExp.push({id:uid(),type,amount:amt,date,desc});
@@ -1070,10 +1112,29 @@ function set(id,html){const el=document.getElementById(id);if(el)el.innerHTML=ht
 function emptyRow(cols,msg='Kayıt bulunamadı'){return `<tr><td colspan="${cols}"><div class="empty"><div class="empty-ico">🔍</div><div class="empty-txt">${msg}</div></div></td></tr>`;}
 function nada(){return '<div style="color:var(--t3);font-size:13px;padding:10px 0">Yeterli veri yok.</div>';}
 
+
+function moneyDigits(v){return String(v??'').replace(/\D/g,'');}
+function moneyFormatInputValue(v){const digits=moneyDigits(v);return digits?Number(digits).toLocaleString('tr-TR'):'';}
+function moneyParse(v){const digits=moneyDigits(v);return digits?Number(digits):0;}
+function bindMoneyInput(id){
+  const el=document.getElementById(id);
+  if(!el || el.dataset.moneyBound==='1') return;
+  el.dataset.moneyBound='1';
+  const apply=()=>{ el.value=moneyFormatInputValue(el.value); };
+  el.addEventListener('input', apply);
+  el.addEventListener('blur', apply);
+  el.addEventListener('focus', ()=>{
+    const len=el.value.length;
+    requestAnimationFrame(()=>{ try{ el.setSelectionRange(len,len); }catch(e){} });
+  });
+}
+function bindMoneyInputs(){['fBuyPrice','fSellPrice','fExpAmt','gTutar'].forEach(bindMoneyInput);}
+
 // ── INIT ────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async ()=>{
   renderAll();
   renderSP();
+  bindMoneyInputs();
   await loadFromSheets(false);
 });
 </script>
