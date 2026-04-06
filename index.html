@@ -224,6 +224,18 @@ textarea.finp{resize:vertical;min-height:75px}
 .period-bar{display:flex;gap:8px;align-items:center;margin-bottom:20px;flex-wrap:wrap}
 .period-sel{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;cursor:pointer}
 .period-sel:focus{border-color:var(--accent)}
+/* RENAME MODAL */
+.rename-overlay{position:fixed;inset:0;z-index:700;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.72);backdrop-filter:blur(5px)}
+.rename-overlay.open{display:flex}
+.rename-card{background:var(--s1);border:1px solid var(--border2);border-radius:14px;box-shadow:var(--shadow);width:min(420px,94vw);overflow:hidden}
+.rename-hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);background:var(--s2)}
+.rename-title{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:1px;color:var(--accent)}
+.rename-body{padding:20px}
+.rename-lbl{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.rename-inp{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:10px 13px;color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border-color .2s}
+.rename-inp:focus{border-color:var(--accent);background:var(--s3)}
+.rename-info{font-size:11px;color:var(--t3);margin-top:8px}
+.rename-ftr{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;background:var(--s2)}
 /* SCROLLBAR */
 ::-webkit-scrollbar{width:8px;height:10px}
 ::-webkit-scrollbar-track{background:var(--s1)}
@@ -551,6 +563,25 @@ textarea.finp{resize:vertical;min-height:75px}
   </div>
 </div>
 
+<!-- RENAME MODAL -->
+<div class="rename-overlay" id="renameOverlay">
+  <div class="rename-card">
+    <div class="rename-hdr">
+      <div class="rename-title" id="renameTitle">MARKA DÜZENLE</div>
+      <button class="modal-close" onclick="closeRename()">✕</button>
+    </div>
+    <div class="rename-body">
+      <div class="rename-lbl" id="renameLbl">Yeni değer</div>
+      <input class="rename-inp" id="renameInp" type="text" placeholder="Yeni değer...">
+      <div class="rename-info" id="renameInfo"></div>
+    </div>
+    <div class="rename-ftr">
+      <button class="btn btn-ghost" onclick="closeRename()">İptal</button>
+      <button class="btn btn-primary" onclick="confirmRename()">✓ Güncelle</button>
+    </div>
+  </div>
+</div>
+
 <div class="notif-wrap" id="notifWrap"></div>
 
 <script>
@@ -576,7 +607,7 @@ function toggleMobileNav(force){
   document.body.classList.toggle('mobile-nav-open', willOpen);
 }
 function closeMobileNav(){ toggleMobileNav(false); }
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeMobileNav(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){closeMobileNav();if(typeof closeRename==='function')closeRename();} });
 function goPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -800,31 +831,48 @@ function acIn(inpId,dropId,listFn){
     const safe=escJS(s);
     return `<div class="ac-item">
       <div class="ac-val" onmousedown="acSel('${inpId}','${dropId}','${safe}')">${s}</div>
-      ${fieldType?`<button type="button" class="ac-edit" title="Düzenle" onmousedown="event.preventDefault();event.stopPropagation();renameSuggestion('${fieldType}','${safe}','${inpId}','${dropId}')">✎</button>`:''}
+      ${fieldType?`<button type="button" class="ac-edit" title="Düzenle" onmousedown="event.preventDefault();event.stopPropagation();openRename('${fieldType}','${safe}','${inpId}','${dropId}')">✎</button>`:''}
     </div>`;
   }).join('');
   drop.classList.add('open');
 }
 function acSel(inpId,dropId,val){document.getElementById(inpId).value=val;document.getElementById(dropId).classList.remove('open');if(inpId==='fBrand')acIn('fModel','ac-model',getModels);}
-function renameSuggestion(fieldType,oldVal,inpId,dropId){
-  const newVal=(prompt('Yeni değer:', oldVal)||'').trim();
-  if(!newVal || newVal===oldVal)return;
+let _renameCtx={};
+function openRename(fieldType,oldVal,inpId,dropId){
+  _renameCtx={fieldType,oldVal,inpId,dropId};
+  document.getElementById('renameTitle').textContent=fieldType==='brand'?'MARKA DÜZENLE':'MODEL DÜZENLE';
+  document.getElementById('renameLbl').textContent=fieldType==='brand'?'Yeni marka adı':'Yeni model adı';
+  const count=vehicles.filter(v=>fieldType==='brand'?v.brand===oldVal:v.model===oldVal).length;
+  document.getElementById('renameInfo').textContent='"'+oldVal+'" → '+count+' araçta güncellenir';
+  const inp=document.getElementById('renameInp');
+  inp.value=oldVal;
+  document.getElementById('renameOverlay').classList.add('open');
+  setTimeout(()=>{inp.focus();inp.select();},80);
+  document.getElementById(dropId)?.classList.remove('open');
+}
+function closeRename(){
+  document.getElementById('renameOverlay').classList.remove('open');
+  _renameCtx={};
+}
+function confirmRename(){
+  const newVal=document.getElementById('renameInp').value.trim();
+  const {fieldType,oldVal,inpId,dropId}=_renameCtx;
+  if(!newVal){notify('Değer boş olamaz','err');return;}
+  if(newVal===oldVal){closeRename();return;}
   let changed=0;
   vehicles.forEach(v=>{
-    if(fieldType==='brand' && v.brand===oldVal){v.brand=newVal;changed++;}
-    if(fieldType==='model' && v.model===oldVal){v.model=newVal;changed++;}
+    if(fieldType==='brand'&&v.brand===oldVal){v.brand=newVal;changed++;}
+    if(fieldType==='model'&&v.model===oldVal){v.model=newVal;changed++;}
   });
   if(!changed){notify('Değiştirilecek kayıt bulunamadı','err');return;}
   const inp=document.getElementById(inpId);
-  if(inp && inp.value===oldVal) inp.value=newVal;
-  persist();
-  renderAll();
-  if(fieldType==='brand' && document.getElementById('fBrand')?.value===newVal){
+  if(inp&&inp.value===oldVal)inp.value=newVal;
+  persist();renderAll();
+  if(fieldType==='brand'&&document.getElementById('fBrand')?.value===newVal)
     acIn('fModel','ac-model',getModels);
-  }
-  acIn(inpId,dropId,inpId==='fBrand'?getBrands:getModels);
-  notify('✅ Öneri güncellendi');
-  if(SHEETS_URL) pushAllData();
+  notify('✅ '+changed+' araçta güncellendi');
+  if(SHEETS_URL)pushAllData();
+  closeRename();
 }
 document.addEventListener('click',e=>{document.querySelectorAll('.ac-drop').forEach(d=>{if(!d.parentElement.contains(e.target))d.classList.remove('open');});});
 
@@ -1155,6 +1203,16 @@ function bindMoneyInput(id){
 function bindMoneyInputs(){['fBuyPrice','fSellPrice','fExpAmt','gTutar'].forEach(bindMoneyInput);}
 
 // ── INIT ────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', ()=>{
+  // Rename modal klavye
+  document.getElementById('renameInp').addEventListener('keydown',e=>{
+    if(e.key==='Enter')confirmRename();
+    if(e.key==='Escape')closeRename();
+  });
+  document.getElementById('renameOverlay').addEventListener('click',e=>{
+    if(e.target===document.getElementById('renameOverlay'))closeRename();
+  });
+});
 document.addEventListener('DOMContentLoaded', async ()=>{
   renderAll();
   renderSP();
