@@ -152,12 +152,18 @@ textarea.finp{resize:vertical;min-height:75px}
 .vtype-btn.on-galeri{border-color:var(--accent);background:rgba(232,160,32,.1);color:var(--accent)}
 .vtype-btn.on-konsinye{border-color:var(--purple);background:rgba(168,85,247,.1);color:var(--purple)}
 /* YIL SEÇİCİ */
-.year-picker{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:300;background:var(--s2);border:1px solid var(--border2);border-radius:var(--r);box-shadow:var(--shadow);padding:8px;display:none;max-height:240px;overflow-y:auto}
+.year-picker{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:300;background:var(--s2);border:1px solid var(--border2);border-radius:var(--r);box-shadow:var(--shadow);padding:10px;display:none}
 .year-picker.open{display:block}
-.year-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
-.year-opt{padding:8px 4px;text-align:center;border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;color:var(--t2);transition:all .15s;border:1px solid transparent}
-.year-opt:hover{background:var(--s3);color:var(--text)}
-.year-opt.sel{background:var(--accent);color:#000;font-weight:700}
+.year-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:10px}
+.year-opt{padding:9px 4px;text-align:center;border-radius:7px;cursor:pointer;font-size:13px;font-weight:500;color:var(--t2);transition:all .15s;border:1px solid var(--border);background:var(--s3)}
+.year-opt:hover{border-color:var(--accent);color:var(--accent)}
+.year-opt.sel{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700}
+.year-manual{border-top:1px solid var(--border);padding-top:8px;display:flex;gap:6px;align-items:center}
+.year-manual input{flex:1;background:var(--s3);border:1px solid var(--border);border-radius:7px;padding:7px 10px;color:var(--text);font-size:13px;font-family:inherit;outline:none}
+.year-manual input:focus{border-color:var(--accent)}
+.year-manual input::placeholder{color:var(--t3)}
+.year-manual button{background:var(--accent);border:none;border-radius:7px;color:#000;font-weight:700;font-size:12px;padding:7px 12px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.year-manual button:hover{background:var(--accent-h)}
 /* AUTOCOMPLETE */
 .ac-drop{position:absolute;top:100%;left:0;right:0;z-index:250;background:var(--s2);border:1px solid var(--border2);border-radius:var(--r);box-shadow:var(--shadow);display:none;max-height:180px;overflow-y:auto;margin-top:2px}
 .ac-drop.open{display:block}
@@ -461,7 +467,16 @@ textarea.finp{resize:vertical;min-height:75px}
         <div class="fg"><label class="flbl">Plaka *</label><input class="finp" id="fPlate" placeholder="34 ABC 123" style="font-family:'JetBrains Mono',monospace;text-transform:uppercase"></div>
         <div class="fg"><label class="flbl">Marka *</label><input class="finp" id="fBrand" placeholder="Toyota, BMW..." autocomplete="off" oninput="acIn('fBrand','ac-brand',getBrands)" onfocus="acIn('fBrand','ac-brand',getBrands)"><div class="ac-drop" id="ac-brand"></div></div>
         <div class="fg"><label class="flbl">Model</label><input class="finp" id="fModel" placeholder="Corolla, 320i..." autocomplete="off" oninput="acIn('fModel','ac-model',getModels)" onfocus="acIn('fModel','ac-model',getModels)"><div class="ac-drop" id="ac-model"></div></div>
-        <div class="fg"><label class="flbl">Model Yılı</label><input class="finp" id="fYear" placeholder="2022" readonly style="cursor:pointer" onclick="toggleYP()" autocomplete="off"><div class="year-picker" id="yearPicker"><div class="year-grid" id="yearGrid"></div></div></div>
+        <div class="fg"><label class="flbl">Model Yılı</label>
+          <input class="finp" id="fYear" placeholder="Seç..." readonly style="cursor:pointer" onclick="toggleYP()" autocomplete="off">
+          <div class="year-picker" id="yearPicker">
+            <div class="year-grid" id="yearGrid"></div>
+            <div class="year-manual">
+              <input type="number" id="yearManualInp" placeholder="2004 ve öncesi..." min="1970" max="2004">
+              <button type="button" onclick="yearManualSet()">Tamam</button>
+            </div>
+          </div>
+        </div>
         <div class="fg"><label class="flbl">KM</label><input class="finp" type="number" id="fKm" placeholder="85000"></div>
         <div class="fg"><label class="flbl">Renk</label>
           <select class="finp" id="fColor"><option value="">—</option><option>Beyaz</option><option>Siyah</option><option>Gri</option><option>Gümüş</option><option>Kırmızı</option><option>Mavi</option><option>Lacivert</option><option>Yeşil</option><option>Sarı</option><option>Turuncu</option><option>Kahverengi</option><option>Bordo</option><option>Bej</option><option>Mor</option><option>Diğer</option></select>
@@ -815,13 +830,22 @@ document.addEventListener('click',e=>{document.querySelectorAll('.ac-drop').forE
 
 // // ── YIL SEÇİCİ ──────────────────────────────────────────────────
 function buildYG(){
-  const cy=new Date().getFullYear(),sel=document.getElementById('fYear').value;
+  const sel=document.getElementById('fYear').value;
   const years=[];
-  for(let y=cy+1;y>=1990;y--)years.push(y);
-  document.getElementById('yearGrid').innerHTML=years.map(y=>`<div class="year-opt ${String(y)===String(sel)?'sel':''}" onclick="selYear(${y})">${y}</div>`).join('');
+  for(let y=2026;y>=2005;y--)years.push(y);
+  document.getElementById('yearGrid').innerHTML=years.map(y=>`<div class="year-opt${String(y)===String(sel)?' sel':''}" onclick="selYear(${y})">${y}</div>`).join('');
 }
 function toggleYP(){const p=document.getElementById('yearPicker');buildYG();p.classList.toggle('open');}
 function selYear(y){document.getElementById('fYear').value=y;document.getElementById('yearPicker').classList.remove('open');}
+function yearManualSet(){
+  const val=document.getElementById('yearManualInp').value.trim();
+  if(!val)return;
+  const n=parseInt(val);
+  if(n<1970||n>2004){notify('1970-2004 arası bir yıl girin','err');return;}
+  document.getElementById('fYear').value=n;
+  document.getElementById('yearPicker').classList.remove('open');
+  document.getElementById('yearManualInp').value='';
+}
 document.addEventListener('click',e=>{const yp=document.getElementById('yearPicker'),yi=document.getElementById('fYear');if(yp&&yi&&!yp.contains(e.target)&&e.target!==yi)yp.classList.remove('open');});
 
 // ── ARAÇ TÜRÜ ────────────────────────────────────────────────────
