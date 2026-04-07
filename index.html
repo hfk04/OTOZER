@@ -8,29 +8,29 @@
 <style>
 :root{--bg:#09090c;--s1:#101014;--s2:#16161c;--s3:#1c1c24;--border:#252530;--border2:#2e2e3a;--accent:#e8a020;--accent-h:#f5b535;--accent2:#ff6b35;--text:#eeeef5;--t2:#9090aa;--t3:#555568;--t4:#33333f;--green:#22c55e;--red:#ef4444;--blue:#3b82f6;--purple:#a855f7;--r:10px;--shadow:0 8px 32px rgba(0,0,0,.5)}
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
-body{background:var(---bg);color:var(---text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
-.sidebar{position:fixed;left:0;top:0;bottom:0;width:230px;background:var(---s1);border-right:1px solid var(---border);display:flex;flex-direction:column;z-index:200}
-.logo{padding:22px 20px 18px;border-bottom:1px solid var(---border)}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:230px;background:var(--s1);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:200}
+.logo{padding:22px 20px 18px;border-bottom:1px solid var(--border)}
 .logo-mark{display:flex;align-items:baseline;gap:6px}
-.logo-ag{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:3px;color:var(---accent);line-height:1}
-.logo-pro{font-size:10px;font-weight:700;letter-spacing:3px;color:var(---accent2);text-transform:uppercase;padding:2px 6px;border:1px solid var(---accent2);border-radius:4px}
-.logo-sub{font-size:10px;color:var(---t3);letter-spacing:2px;text-transform:uppercase;margin-top:5px}
+.logo-ag{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:3px;color:var(--accent);line-height:1}
+.logo-pro{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--accent2);text-transform:uppercase;padding:2px 6px;border:1px solid var(--accent2);border-radius:4px}
+.logo-sub{font-size:10px;color:var(--t3);letter-spacing:2px;text-transform:uppercase;margin-top:5px}
 .nav{padding:12px 0;flex:1;overflow-y:auto}
-.nav-section{padding:14px 20px 6px;font-size:9px;font-weight:700;color:var(---t3);letter-spacing:2px;text-transform:uppercase}
-.nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;cursor:pointer;color:var(---t2);font-size:13.5px;font-weight:500;transition:all .15s;border-left:3px solid transparent;user-select:none}
-.nav-item:hover{color:var(---text);background:var(---s2)}
-.nav-item.active{color:var(---accent);background:rgba(232,160,32,.07);border-left-color:var(---accent)}
+.nav-section{padding:14px 20px 6px;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:2px;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;cursor:pointer;color:var(--t2);font-size:13.5px;font-weight:500;transition:all .15s;border-left:3px solid transparent;user-select:none}
+.nav-item:hover{color:var(--text);background:var(--s2)}
+.nav-item.active{color:var(--accent);background:rgba(232,160,32,.07);border-left-color:var(--accent)}
 .nav-icon{font-size:15px;width:22px;text-align:center;flex-shrink:0}
 .nav-badge{margin-left:auto;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;min-width:20px;text-align:center}
-.badge-amber{background:var(---accent);color:#000}
-.sync-status{font-size:10px;color:var(---t3);text-align:center}
+.badge-amber{background:var(--accent);color:#000}
+.sync-status{font-size:10px;color:var(--t3);text-align:center}
 .main{margin-left:230px;min-height:100vh;display:flex;flex-direction:column}
-.topbar{position:sticky;top:0;z-index:100;background:rgba(9,9,12,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(---border);padding:0 28px;height:58px;display:flex;align-items:center;gap:14px}
+.topbar{position:sticky;top:0;z-index:100;background:rgba(9,9,12,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 28px;height:58px;display:flex;align-items:center;gap:14px}
 .topbar-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1.5px;white-space:nowrap}
 .topbar-right{margin-left:auto;display:flex;gap:9px;align-items:center}
 
-.mobile-menu-btn{display:none;width:42px;height:42px;border:1px solid var(---border);border-radius:12px;background:var(---s2);color:var(---text);align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
-.mobile-menu-btn:hover{background:var(---s3);border-color:var(---border2)}
+.mobile-menu-btn{display:none;width:42px;height:42px;border:1px solid var(--border);border-radius:12px;background:var(--s2);color:var(--text);align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.mobile-menu-btn:hover{background:var(--s3);border-color:var(--border2)}
 .mobile-menu-ico{position:relative;width:18px;height:14px;display:block}
 .mobile-menu-ico span{position:absolute;left:0;right:0;height:2px;background:currentColor;border-radius:2px;transition:transform .2s,opacity .2s,top .2s}
 .mobile-menu-ico span:nth-child(1){top:0}
@@ -42,62 +42,62 @@ body.mobile-nav-open .mobile-menu-ico span:nth-child(3){top:6px;transform:rotate
 .mobile-nav-backdrop{display:none}
 
 .search-mega{position:relative;flex:1;max-width:480px}
-.search-mega input{width:100%;background:var(---s2);border:1px solid var(---border);border-radius:var(---r);padding:9px 14px 9px 38px;color:var(---text);font-size:13.5px;font-family:inherit;outline:none;transition:all .2s}
-.search-mega input:focus{border-color:var(---accent);background:var(---s3);box-shadow:0 0 0 3px rgba(232,160,32,.1)}
-.search-mega input::placeholder{color:var(---t3)}
-.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(---t3);font-size:14px;pointer-events:none}
-.search-clear{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(---t3);cursor:pointer;font-size:15px;padding:2px;display:none}
-.search-results-drop{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(---s2);border:1px solid var(---border2);border-radius:var(---r);box-shadow:var(---shadow);z-index:999;display:none;max-height:420px;overflow-y:auto}
+.search-mega input{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:9px 14px 9px 38px;color:var(--text);font-size:13.5px;font-family:inherit;outline:none;transition:all .2s}
+.search-mega input:focus{border-color:var(--accent);background:var(--s3);box-shadow:0 0 0 3px rgba(232,160,32,.1)}
+.search-mega input::placeholder{color:var(--t3)}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:14px;pointer-events:none}
+.search-clear{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--t3);cursor:pointer;font-size:15px;padding:2px;display:none}
+.search-results-drop{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--s2);border:1px solid var(--border2);border-radius:var(--r);box-shadow:var(--shadow);z-index:999;display:none;max-height:420px;overflow-y:auto}
 .search-results-drop.open{display:block}
-.srd-header{padding:10px 14px 6px;font-size:10px;font-weight:700;color:var(---t3);text-transform:uppercase;letter-spacing:1.5px}
-.srd-item{display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;transition:background .1s;border-bottom:1px solid var(---border)}
+.srd-header{padding:10px 14px 6px;font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px}
+.srd-item{display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;transition:background .1s;border-bottom:1px solid var(--border)}
 .srd-item:last-child{border-bottom:none}
-.srd-item:hover{background:var(---s3)}
-.srd-plate{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(---accent);background:var(---s3);padding:3px 8px;border-radius:5px;border:1px solid var(---border2);flex-shrink:0}
+.srd-item:hover{background:var(--s3)}
+.srd-plate{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--accent);background:var(--s3);padding:3px 8px;border-radius:5px;border:1px solid var(--border2);flex-shrink:0}
 .srd-info{flex:1;min-width:0}
 .srd-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.srd-meta{font-size:11px;color:var(---t3);margin-top:1px}
-.srd-empty{padding:20px 14px;text-align:center;color:var(---t3);font-size:13px}
+.srd-meta{font-size:11px;color:var(--t3);margin-top:1px}
+.srd-empty{padding:20px 14px;text-align:center;color:var(--t3);font-size:13px}
 .page{display:none;padding:24px 28px;flex:1;animation:fadeIn .2s ease}
 .page.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-.btn{padding:8px 16px;border:none;border-radius:var(---r);cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;transition:all .15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
-.btn-primary{background:var(---accent);color:#000}
-.btn-primary:hover{background:var(---accent-h);transform:translateY(-1px);box-shadow:0 4px 12px rgba(232,160,32,.3)}
-.btn-ghost{background:var(---s2);color:var(---t2);border:1px solid var(---border)}
-.btn-ghost:hover{color:var(---text);background:var(---s3);border-color:var(---border2)}
-.btn-danger{background:rgba(239,68,68,.12);color:var(---red);border:1px solid rgba(239,68,68,.25)}
+.btn{padding:8px 16px;border:none;border-radius:var(--r);cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;transition:all .15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.btn-primary{background:var(--accent);color:#000}
+.btn-primary:hover{background:var(--accent-h);transform:translateY(-1px);box-shadow:0 4px 12px rgba(232,160,32,.3)}
+.btn-ghost{background:var(--s2);color:var(--t2);border:1px solid var(--border)}
+.btn-ghost:hover{color:var(--text);background:var(--s3);border-color:var(--border2)}
+.btn-danger{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.25)}
 .btn-danger:hover{background:rgba(239,68,68,.22)}
 .btn-sm{padding:5px 10px;font-size:12px}
 .btn-xs{padding:3px 8px;font-size:11px}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
-.stat{background:var(---s1);border:1px solid var(---border);border-radius:var(---r);padding:18px 20px;position:relative;overflow:hidden;transition:border-color .2s,transform .15s}
-.stat:hover{border-color:var(---accent);transform:translateY(-2px)}
+.stat{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden;transition:border-color .2s,transform .15s}
+.stat:hover{border-color:var(--accent);transform:translateY(-2px)}
 .stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.stat.c-amber::before{background:linear-gradient(90deg,var(---accent),var(---accent2))}
-.stat.c-green::before{background:var(---green)}
-.stat.c-red::before{background:var(---red)}
-.stat.c-blue::before{background:var(---blue)}
-.stat.c-purple::before{background:var(---purple)}
-.stat-lbl{font-size:10px;color:var(---t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;font-weight:600}
+.stat.c-amber::before{background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.stat.c-green::before{background:var(--green)}
+.stat.c-red::before{background:var(--red)}
+.stat.c-blue::before{background:var(--blue)}
+.stat.c-purple::before{background:var(--purple)}
+.stat-lbl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;font-weight:600}
 .stat-val{font-family:'Bebas Neue',sans-serif;font-size:36px;line-height:1;letter-spacing:1px}
-.stat.c-amber .stat-val{color:var(---accent)}
-.stat.c-green .stat-val{color:var(---green)}
-.stat.c-red .stat-val{color:var(---red)}
-.stat.c-blue .stat-val{color:var(---blue)}
-.stat.c-purple .stat-val{color:var(---purple)}
-.stat-sub{font-size:11px;color:var(---t3);margin-top:5px}
+.stat.c-amber .stat-val{color:var(--accent)}
+.stat.c-green .stat-val{color:var(--green)}
+.stat.c-red .stat-val{color:var(--red)}
+.stat.c-blue .stat-val{color:var(--blue)}
+.stat.c-purple .stat-val{color:var(--purple)}
+.stat-sub{font-size:11px;color:var(--t3);margin-top:5px}
 .sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.sec-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1.5px;color:var(---t2)}
-.sec-title span{color:var(---accent)}
-.tbl-wrap{background:var(---s1);border:1px solid var(---border);border-radius:var(---r);overflow:auto;scrollbar-gutter:stable both-edges}
-.tbl-toolbar{padding:12px 16px;border-bottom:1px solid var(---border);display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(---s2)}
-.filter-pill{padding:5px 13px;border-radius:20px;border:1px solid var(---border);background:none;color:var(---t2);font-size:12px;cursor:pointer;transition:all .15s;font-family:inherit;font-weight:500}
-.filter-pill:hover,.filter-pill.on{background:var(---accent);color:#000;border-color:var(---accent);font-weight:700}
-.tbl-search{background:var(---s1);border:1px solid var(---border);border-radius:8px;padding:5px 11px;color:var(---text);font-size:12.5px;font-family:inherit;outline:none;width:180px;transition:border-color .2s}
-.tbl-search:focus{border-color:var(---accent)}
-.tbl-search::placeholder{color:var(---t3)}
-.sel-filter{background:var(---s1);border:1px solid var(---border);border-radius:8px;padding:5px 10px;color:var(---t2);font-size:12px;font-family:inherit;outline:none;cursor:pointer}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1.5px;color:var(--t2)}
+.sec-title span{color:var(--accent)}
+.tbl-wrap{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);overflow:auto;scrollbar-gutter:stable both-edges}
+.tbl-toolbar{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--s2)}
+.filter-pill{padding:5px 13px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--t2);font-size:12px;cursor:pointer;transition:all .15s;font-family:inherit;font-weight:500}
+.filter-pill:hover,.filter-pill.on{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700}
+.tbl-search{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:5px 11px;color:var(--text);font-size:12.5px;font-family:inherit;outline:none;width:180px;transition:border-color .2s}
+.tbl-search:focus{border-color:var(--accent)}
+.tbl-search::placeholder{color:var(--t3)}
+.sel-filter{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:5px 10px;color:var(--t2);font-size:12px;font-family:inherit;outline:none;cursor:pointer}
 table{width:100%;min-width:100%;border-collapse:collapse}
 #page-all table{min-width:1550px}
 #page-search table{min-width:1350px}
@@ -105,129 +105,129 @@ table{width:100%;min-width:100%;border-collapse:collapse}
 #page-vehicles table{min-width:1250px}
 #page-expenses table{min-width:1000px}
 #page-giderler table{min-width:950px}
-thead th{text-align:left;padding:11px 15px;font-size:10.5px;font-weight:700;color:var(---t3);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(---border);background:var(---s2);cursor:pointer;user-select:none;white-space:nowrap}
-thead th:hover{color:var(---t2)}
-tbody tr{border-bottom:1px solid var(---border);transition:background .1s;cursor:pointer}
+thead th{text-align:left;padding:11px 15px;font-size:10.5px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border);background:var(--s2);cursor:pointer;user-select:none;white-space:nowrap}
+thead th:hover{color:var(--t2)}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s;cursor:pointer}
 tbody tr:last-child{border-bottom:none}
-tbody tr:hover{background:var(---s2)}
+tbody tr:hover{background:var(--s2)}
 tbody td{padding:12px 15px;font-size:13px;vertical-align:middle}
-.plate{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:12.5px;background:var(---s3);padding:4px 9px;border-radius:6px;border:1px solid var(---border2);letter-spacing:1px;color:var(---accent)}
+.plate{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:12.5px;background:var(--s3);padding:4px 9px;border-radius:6px;border:1px solid var(--border2);letter-spacing:1px;color:var(--accent)}
 .badge{padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;display:inline-flex;align-items:center;gap:4px}
-.b-stok{background:rgba(59,130,246,.12);color:var(---blue);border:1px solid rgba(59,130,246,.22)}
-.b-satildi{background:rgba(34,197,94,.12);color:var(---green);border:1px solid rgba(34,197,94,.22)}
-.b-konsinye{background:rgba(168,85,247,.12);color:var(---purple);border:1px solid rgba(168,85,247,.22)}
-.b-galeri{background:rgba(232,160,32,.1);color:var(---accent);border:1px solid rgba(232,160,32,.2)}
+.b-stok{background:rgba(59,130,246,.12);color:var(--blue);border:1px solid rgba(59,130,246,.22)}
+.b-satildi{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.22)}
+.b-konsinye{background:rgba(168,85,247,.12);color:var(--purple);border:1px solid rgba(168,85,247,.22)}
+.b-galeri{background:rgba(232,160,32,.1);color:var(--accent);border:1px solid rgba(232,160,32,.2)}
 .mono{font-family:'JetBrains Mono',monospace;font-size:13px}
-.pos{color:var(---green)}.neg{color:var(---red)}.muted{color:var(---t2)}
-.tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:11px;background:var(---s3);color:var(---t2);margin:1px;border:1px solid var(---border)}
-.highlight{background:rgba(232,160,32,.2);color:var(---accent);border-radius:2px;padding:0 1px}
+.pos{color:var(--green)}.neg{color:var(--red)}.muted{color:var(--t2)}
+.tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:11px;background:var(--s3);color:var(--t2);margin:1px;border:1px solid var(--border)}
+.highlight{background:rgba(232,160,32,.2);color:var(--accent);border-radius:2px;padding:0 1px}
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center}
 .overlay.open{display:flex}
-.modal{background:var(---s1);border:1px solid var(---border2);border-radius:14px;width:min(700px,96vw);max-height:92vh;overflow-y:auto;box-shadow:var(---shadow);display:flex;flex-direction:column}
+.modal{background:var(--s1);border:1px solid var(--border2);border-radius:14px;width:min(700px,96vw);max-height:92vh;overflow-y:auto;box-shadow:var(--shadow);display:flex;flex-direction:column}
 .modal-lg{width:min(820px,96vw)}
 .modal-sm{width:min(480px,96vw)}
-.modal-hdr{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(---border);position:sticky;top:0;background:var(---s1);z-index:2}
-.modal-title{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:1.5px;color:var(---accent)}
-.modal-close{background:var(---s2);border:1px solid var(---border);color:var(---t2);width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s}
-.modal-close:hover{color:var(---text);background:var(---s3)}
+.modal-hdr{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--s1);z-index:2}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:1.5px;color:var(--accent)}
+.modal-close{background:var(--s2);border:1px solid var(--border);color:var(--t2);width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.modal-close:hover{color:var(--text);background:var(--s3)}
 .modal-body{padding:22px}
-.modal-ftr{padding:14px 22px;border-top:1px solid var(---border);display:flex;gap:9px;justify-content:flex-end;background:var(---s2);position:sticky;bottom:0;border-radius:0 0 14px 14px}
+.modal-ftr{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:9px;justify-content:flex-end;background:var(--s2);position:sticky;bottom:0;border-radius:0 0 14px 14px}
 .fg{display:flex;flex-direction:column;gap:5px;position:relative}
 .fg2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .fg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
 .fg.full{grid-column:1/-1}
-.flbl{font-size:11px;font-weight:700;color:var(---t2);text-transform:uppercase;letter-spacing:.8px}
-.finp{background:var(---s2);border:1px solid var(---border);border-radius:var(---r);padding:9px 12px;color:var(---text);font-size:13.5px;font-family:inherit;outline:none;transition:border-color .2s;width:100%}
-.finp:focus{border-color:var(---accent);background:var(---s3)}
-.finp::placeholder{color:var(---t3)}
+.flbl{font-size:11px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.8px}
+.finp{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:9px 12px;color:var(--text);font-size:13.5px;font-family:inherit;outline:none;transition:border-color .2s;width:100%}
+.finp:focus{border-color:var(--accent);background:var(--s3)}
+.finp::placeholder{color:var(--t3)}
 select.finp{cursor:pointer}
 textarea.finp{resize:vertical;min-height:75px}
-.fsec{margin-top:18px;padding-top:14px;border-top:1px solid var(---border)}
-.fsec-ttl{font-size:10px;font-weight:700;color:var(---t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.fsec-ttl::after{content:'';flex:1;height:1px;background:var(---border)}
+.fsec{margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+.fsec-ttl{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.fsec-ttl::after{content:'';flex:1;height:1px;background:var(--border)}
 /* ARAÇ TÜRÜ */
 .vtype-wrap{display:flex;gap:10px;margin-bottom:4px}
-.vtype-btn{flex:1;padding:12px;border:2px solid var(---border);border-radius:var(---r);background:var(---s2);color:var(---t2);cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;text-align:center;transition:all .2s}
-.vtype-btn:hover{border-color:var(---t2);color:var(---text)}
-.vtype-btn.on-galeri{border-color:var(---accent);background:rgba(232,160,32,.1);color:var(---accent)}
-.vtype-btn.on-konsinye{border-color:var(---purple);background:rgba(168,85,247,.1);color:var(---purple)}
+.vtype-btn{flex:1;padding:12px;border:2px solid var(--border);border-radius:var(--r);background:var(--s2);color:var(--t2);cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;text-align:center;transition:all .2s}
+.vtype-btn:hover{border-color:var(--t2);color:var(--text)}
+.vtype-btn.on-galeri{border-color:var(--accent);background:rgba(232,160,32,.1);color:var(--accent)}
+.vtype-btn.on-konsinye{border-color:var(--purple);background:rgba(168,85,247,.1);color:var(--purple)}
 /* YIL SEÇİCİ */
-.year-picker{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:300;background:var(---s2);border:1px solid var(---border2);border-radius:var(---r);box-shadow:var(---shadow);padding:8px;display:none;max-height:240px;overflow-y:auto}
+.year-picker{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:300;background:var(--s2);border:1px solid var(--border2);border-radius:var(--r);box-shadow:var(--shadow);padding:8px;display:none;max-height:240px;overflow-y:auto}
 .year-picker.open{display:block}
 .year-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
-.year-opt{padding:8px 4px;text-align:center;border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;color:var(---t2);transition:all .15s;border:1px solid transparent}
-.year-opt:hover{background:var(---s3);color:var(---text)}
-.year-opt.sel{background:var(---accent);color:#000;font-weight:700}
+.year-opt{padding:8px 4px;text-align:center;border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;color:var(--t2);transition:all .15s;border:1px solid transparent}
+.year-opt:hover{background:var(--s3);color:var(--text)}
+.year-opt.sel{background:var(--accent);color:#000;font-weight:700}
 /* AUTOCOMPLETE */
-.ac-drop{position:absolute;top:100%;left:0;right:0;z-index:250;background:var(---s2);border:1px solid var(---border2);border-radius:var(---r);box-shadow:var(---shadow);display:none;max-height:180px;overflow-y:auto;margin-top:2px}
+.ac-drop{position:absolute;top:100%;left:0;right:0;z-index:250;background:var(--s2);border:1px solid var(--border2);border-radius:var(--r);box-shadow:var(--shadow);display:none;max-height:180px;overflow-y:auto;margin-top:2px}
 .ac-drop.open{display:block}
-.ac-item{padding:0;cursor:pointer;font-size:13px;color:var(---text);transition:background .1s;border-bottom:1px solid var(---border);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ac-item{padding:0;cursor:pointer;font-size:13px;color:var(--text);transition:background .1s;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px}
 .ac-item:last-child{border-bottom:none}
-.ac-item:hover,.ac-item.focused{background:var(---s3)}
+.ac-item:hover,.ac-item.focused{background:var(--s3)}
 .ac-val{padding:9px 12px;flex:1;min-width:0}
-.ac-edit{border:none;background:none;color:var(---t3);cursor:pointer;font-size:12px;padding:8px 10px;flex-shrink:0}
-.ac-edit:hover{color:var(---accent)}
+.ac-edit{border:none;background:none;color:var(--t3);cursor:pointer;font-size:12px;padding:8px 10px;flex-shrink:0}
+.ac-edit:hover{color:var(--accent)}
 /* EXPENSE */
 .exp-list{display:flex;flex-direction:column;gap:7px;margin-top:10px}
-.exp-item{display:flex;align-items:center;gap:10px;background:var(---s2);border:1px solid var(---border);border-radius:var(---r);padding:10px 13px}
+.exp-item{display:flex;align-items:center;gap:10px;background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:10px 13px}
 .exp-ico{font-size:17px;width:26px;text-align:center;flex-shrink:0}
 .exp-info{flex:1;min-width:0}
 .exp-desc{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.exp-date{font-size:11px;color:var(---t3);margin-top:1px}
-.exp-amt{font-family:'JetBrains Mono',monospace;font-size:13.5px;color:var(---accent);font-weight:600;flex-shrink:0}
-.exp-del{background:none;border:none;color:var(---t3);cursor:pointer;font-size:14px;transition:color .15s;padding:3px;flex-shrink:0}
-.exp-del:hover{color:var(---red)}
+.exp-date{font-size:11px;color:var(--t3);margin-top:1px}
+.exp-amt{font-family:'JetBrains Mono',monospace;font-size:13.5px;color:var(--accent);font-weight:600;flex-shrink:0}
+.exp-del{background:none;border:none;color:var(--t3);cursor:pointer;font-size:14px;transition:color .15s;padding:3px;flex-shrink:0}
+.exp-del:hover{color:var(--red)}
 /* DETAIL */
 .dtl-grid{display:grid;grid-template-columns:1fr 1fr}
-.dtl-row{display:flex;flex-direction:column;gap:3px;padding:11px 15px;border-bottom:1px solid var(---border)}
-.dtl-row:nth-child(odd){border-right:1px solid var(---border)}
+.dtl-row{display:flex;flex-direction:column;gap:3px;padding:11px 15px;border-bottom:1px solid var(--border)}
+.dtl-row:nth-child(odd){border-right:1px solid var(--border)}
 .dtl-row.full{grid-column:1/-1;border-right:none}
-.dtl-k{font-size:10px;color:var(---t3);text-transform:uppercase;letter-spacing:1px}
-.dtl-v{font-size:14px;color:var(---text);font-weight:500}
+.dtl-k{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px}
+.dtl-v{font-size:14px;color:var(--text);font-weight:500}
 /* CHART */
-.chart-card{background:var(---s1);border:1px solid var(---border);border-radius:var(---r);padding:18px 20px}
-.chart-ttl{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;color:var(---t2);margin-bottom:14px}
+.chart-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px}
+.chart-ttl{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;color:var(--t2);margin-bottom:14px}
 .bar-chart{display:flex;align-items:flex-end;gap:5px;height:110px}
 .bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%}
 .bar-outer{flex:1;width:100%;display:flex;align-items:flex-end}
-.bar-inner{width:100%;border-radius:4px 4px 0 0;background:var(---accent);min-height:3px;transition:height .5s ease}
-.bar-lbl{font-size:9.5px;color:var(---t3)}
-.bar-val{font-size:9.5px;color:var(---t2);font-family:'JetBrains Mono',monospace}
+.bar-inner{width:100%;border-radius:4px 4px 0 0;background:var(--accent);min-height:3px;transition:height .5s ease}
+.bar-lbl{font-size:9.5px;color:var(--t3)}
+.bar-val{font-size:9.5px;color:var(--t2);font-family:'JetBrains Mono',monospace}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
-.profit-bar{height:5px;border-radius:3px;background:var(---border);overflow:hidden;margin-top:4px}
-.profit-fill{height:100%;border-radius:3px;background:var(---green);transition:width .5s}
+.profit-bar{height:5px;border-radius:3px;background:var(--border);overflow:hidden;margin-top:4px}
+.profit-fill{height:100%;border-radius:3px;background:var(--green);transition:width .5s}
 /* EMPTY */
-.empty{text-align:center;padding:56px 20px;color:var(---t3)}
+.empty{text-align:center;padding:56px 20px;color:var(--t3)}
 .empty-ico{font-size:44px;margin-bottom:10px;opacity:.35}
 .empty-txt{font-size:13px}
 /* NOTIF */
 .notif-wrap{position:fixed;bottom:22px;right:22px;z-index:9999;display:flex;flex-direction:column;gap:7px;pointer-events:none}
-.notif{background:var(---s2);border:1px solid var(---border2);border-radius:10px;padding:12px 16px;font-size:13px;min-width:250px;max-width:340px;box-shadow:var(---shadow);animation:notifIn .22s ease;pointer-events:auto}
-.notif.ok{border-left:3px solid var(---green)}
-.notif.err{border-left:3px solid var(---red)}
-.notif.info{border-left:3px solid var(---blue)}
+.notif{background:var(--s2);border:1px solid var(--border2);border-radius:10px;padding:12px 16px;font-size:13px;min-width:250px;max-width:340px;box-shadow:var(--shadow);animation:notifIn .22s ease;pointer-events:auto}
+.notif.ok{border-left:3px solid var(--green)}
+.notif.err{border-left:3px solid var(--red)}
+.notif.info{border-left:3px solid var(--blue)}
 @keyframes notifIn{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
 /* SEARCH PAGE */
-.search-page-box{background:var(---s1);border:1px solid var(---border);border-radius:var(---r);padding:20px;margin-bottom:20px}
-.search-page-input{width:100%;background:var(---s2);border:1px solid var(---border);border-radius:var(---r);padding:14px 18px;color:var(---text);font-size:16px;font-family:inherit;outline:none;transition:border-color .2s}
-.search-page-input:focus{border-color:var(---accent);background:var(---s3)}
-.search-page-input::placeholder{color:var(---t3)}
+.search-page-box{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:20px}
+.search-page-input{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:14px 18px;color:var(--text);font-size:16px;font-family:inherit;outline:none;transition:border-color .2s}
+.search-page-input:focus{border-color:var(--accent);background:var(--s3)}
+.search-page-input::placeholder{color:var(--t3)}
 .search-filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.search-stats{font-size:12px;color:var(---t3);margin-top:10px}
+.search-stats{font-size:12px;color:var(--t3);margin-top:10px}
 /* RAPOR */
 .period-bar{display:flex;gap:8px;align-items:center;margin-bottom:20px;flex-wrap:wrap}
-.period-sel{background:var(---s2);border:1px solid var(---border);border-radius:8px;padding:7px 12px;color:var(---text);font-size:13px;font-family:inherit;outline:none;cursor:pointer}
-.period-sel:focus{border-color:var(---accent)}
+.period-sel{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;cursor:pointer}
+.period-sel:focus{border-color:var(--accent)}
 /* SCROLLBAR */
 ::-webkit-scrollbar{width:8px;height:10px}
-::-webkit-scrollbar-track{background:var(---s1)}
-::-webkit-scrollbar-thumb{background:var(---border2);border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:var(---t3)}
+::-webkit-scrollbar-track{background:var(--s1)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--t3)}
 @media(max-width:860px){
   .mobile-menu-btn{display:inline-flex}
   .mobile-nav-backdrop{display:block;position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);z-index:240;opacity:0;pointer-events:none;transition:opacity .22s ease}
   body.mobile-nav-open .mobile-nav-backdrop{opacity:1;pointer-events:auto}
-  .sidebar{width:min(82vw,290px);transform:translateX(-100%);transition:transform .22s ease;z-index:260;box-shadow:var(---shadow)}
+  .sidebar{width:min(82vw,290px);transform:translateX(-100%);transition:transform .22s ease;z-index:260;box-shadow:var(--shadow)}
   body.mobile-nav-open .sidebar{transform:translateX(0)}
   .main{margin-left:0}
   .topbar{padding:0 14px;height:64px;gap:10px}
@@ -410,7 +410,7 @@ textarea.finp{resize:vertical;min-height:75px}
   <!-- RAPORLAR -->
   <div class="page" id="page-reports">
     <div class="period-bar">
-      <span style="font-size:12px;color:var(---t2);font-weight:600">DÖNEM:</span>
+      <span style="font-size:12px;color:var(--t2);font-weight:600">DÖNEM:</span>
       <select class="period-sel" id="rPType" onchange="renderReports()"><option value="all">Tüm Zamanlar</option><option value="year">Yıl Bazlı</option><option value="month">Ay Bazlı</option></select>
       <select class="period-sel" id="rPYear" onchange="renderReports()" style="display:none"></select>
       <select class="period-sel" id="rPMonth" onchange="renderReports()" style="display:none"></select>
@@ -481,7 +481,7 @@ textarea.finp{resize:vertical;min-height:75px}
         </div>
       </div>
 
-      <div class="fsec"><div class="fsec-ttl">SATIŞ BİLGİLERİ <span style="color:var(---t3);font-size:9px;text-transform:none;font-weight:400">(doldurulursa otomatik satıldı)</span></div>
+      <div class="fsec"><div class="fsec-ttl">SATIŞ BİLGİLERİ <span style="color:var(--t3);font-size:9px;text-transform:none;font-weight:400">(doldurulursa otomatik satıldı)</span></div>
         <div class="fg2">
           <div class="fg"><label class="flbl">Satış Tarihi</label><input class="finp" type="date" id="fSellDate"></div>
           <div class="fg"><label class="flbl">Satış Fiyatı (₺)</label><input class="finp" type="text" id="fSellPrice" placeholder="420000" inputmode="numeric" autocomplete="off"></div>
@@ -598,8 +598,8 @@ function renderDashboard(){
   const mx=Math.max(...months.map(m=>m.cnt),1);
   set('barChart',months.map(m=>`<div class="bar-wrap"><div class="bar-val">${m.cnt||''}</div><div class="bar-outer"><div class="bar-inner" style="height:${Math.round((m.cnt/mx)*100)}%"></div></div><div class="bar-lbl">${m.lbl}</div></div>`).join(''));
   const rec=[...vehicles].sort((a,b)=>b.createdAt-a.createdAt).slice(0,6);
-  set('recentAct',rec.length?rec.map(v=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(---border)"><span style="font-size:16px">${v.vtype==='konsinye'?'🤝':v.status==='stok'?'🚗':'✅'}</span><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.brand} ${v.model||''}</div><div style="font-size:11px;color:var(---t3)">${v.plate} - ${fd(v.buyDate)}</div></div><span class="badge ${v.status==='stok'?'b-stok':'b-satildi'}">${v.status==='stok'?'Stok':'Satıldı'}</span></div>`).join(''):'<div class="empty"><div class="empty-ico">🚗</div><div class="empty-txt">Henüz araç yok</div></div>');
-  set('dash-tbl',stok.length?stok.slice(0,8).map(v=>`<tr onclick="openDetail('${v.id}')"><td><span class="plate">${v.plate}</span></td><td><strong>${v.brand}</strong> ${v.model||''} <span class="muted">${v.year||''}</span></td><td>${vtb(v)}</td><td>${fd(v.buyDate)}</td><td><span class="mono">₺${fmt(v.buyPrice)}</span></td><td><span class="mono" style="color:var(---accent2)">₺${fmt(tExp(v))}</span></td><td><span class="mono" style="color:var(---t2)">₺${fmt((v.buyPrice||0)+tExp(v))}</span></td></tr>`).join(''):'<tr><td colspan="7"><div class="empty"><div class="empty-ico">🚗</div><div class="empty-txt">Stokta araç yok</div></div></td></tr>');
+  set('recentAct',rec.length?rec.map(v=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)"><span style="font-size:16px">${v.vtype==='konsinye'?'🤝':v.status==='stok'?'🚗':'✅'}</span><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.brand} ${v.model||''}</div><div style="font-size:11px;color:var(--t3)">${v.plate} - ${fd(v.buyDate)}</div></div><span class="badge ${v.status==='stok'?'b-stok':'b-satildi'}">${v.status==='stok'?'Stok':'Satıldı'}</span></div>`).join(''):'<div class="empty"><div class="empty-ico">🚗</div><div class="empty-txt">Henüz araç yok</div></div>');
+  set('dash-tbl',stok.length?stok.slice(0,8).map(v=>`<tr onclick="openDetail('${v.id}')"><td><span class="plate">${v.plate}</span></td><td><strong>${v.brand}</strong> ${v.model||''} <span class="muted">${v.year||''}</span></td><td>${vtb(v)}</td><td>${fd(v.buyDate)}</td><td><span class="mono">₺${fmt(v.buyPrice)}</span></td><td><span class="mono" style="color:var(--accent2)">₺${fmt(tExp(v))}</span></td><td><span class="mono" style="color:var(--t2)">₺${fmt((v.buyPrice||0)+tExp(v))}</span></td></tr>`).join(''):'<tr><td colspan="7"><div class="empty"><div class="empty-ico">🚗</div><div class="empty-txt">Stokta araç yok</div></div></td></tr>');
 }
 
 // ── V TABLE ──────────────────────────────────────────────────────
@@ -618,8 +618,8 @@ function renderVTbl(){
     <td><strong>${v.brand}</strong> ${v.model||''}</td>
     <td>${v.year||'-'}</td><td>${fd(v.buyDate)}</td><td>${v.seller||'-'}</td>
     <td><span class="mono">₺${fmt(v.buyPrice)}</span></td>
-    <td><span class="mono" style="color:var(---accent2)">₺${fmt(tExp(v))}</span></td>
-    <td><span class="mono" style="color:var(---t2)">₺${fmt((v.buyPrice||0)+tExp(v))}</span></td>
+    <td><span class="mono" style="color:var(--accent2)">₺${fmt(tExp(v))}</span></td>
+    <td><span class="mono" style="color:var(--t2)">₺${fmt((v.buyPrice||0)+tExp(v))}</span></td>
     <td>${vtb(v)}</td>
     <td onclick="event.stopPropagation()" style="white-space:nowrap">
       <button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();editVehicle('${v.id}')">✏</button>
@@ -633,7 +633,7 @@ function renderSoldTbl(){
   const q=(document.getElementById('soldSearch')?.value||'').toLowerCase();
   let list=vehicles.filter(v=>v.status==='satildi');
   if(q)list=list.filter(v=>srch(v).includes(q));
-  set('sold-tbl',list.length?list.map(v=>{const exp=tExp(v),kar=(v.sellPrice||0)-(v.buyPrice||0)-exp;return`<tr onclick="openDetail('${v.id}')"><td><span class="plate">${v.plate}</span></td><td>${v.brand} ${v.model||''}</td><td>${fd(v.buyDate)}</td><td>${v.seller||'-'}</td><td>${fd(v.sellDate)}</td><td>${v.buyer||'-'}</td><td><span class="mono">₺${fmt(v.buyPrice)}</span></td><td><span class="mono" style="color:var(---accent2)">₺${fmt(exp)}</span></td><td><span class="mono pos">₺${fmt(v.sellPrice)}</span></td><td><span class="mono ${kar>=0?'pos':'neg'}">${kar>=0?'+':''}₺${fmt(kar)}</span></td></tr>`;}).join(''):emptyRow(10));
+  set('sold-tbl',list.length?list.map(v=>{const exp=tExp(v),kar=(v.sellPrice||0)-(v.buyPrice||0)-exp;return`<tr onclick="openDetail('${v.id}')"><td><span class="plate">${v.plate}</span></td><td>${v.brand} ${v.model||''}</td><td>${fd(v.buyDate)}</td><td>${v.seller||'-'}</td><td>${fd(v.sellDate)}</td><td>${v.buyer||'-'}</td><td><span class="mono">₺${fmt(v.buyPrice)}</span></td><td><span class="mono" style="color:var(--accent2)">₺${fmt(exp)}</span></td><td><span class="mono pos">₺${fmt(v.sellPrice)}</span></td><td><span class="mono ${kar>=0?'pos':'neg'}">${kar>=0?'+':''}₺${fmt(kar)}</span></td></tr>`;}).join(''):emptyRow(10));
 }
 
 // ── ALL TABLE ────────────────────────────────────────────────────
@@ -655,7 +655,7 @@ function renderExpTbl(){
   let list=rows;
   if(q)list=list.filter(({v,e})=>(v.plate+v.brand+(v.model||'')+(e.desc||'')+(e.type||'')).toLowerCase().includes(q));
   if(tp)list=list.filter(({e})=>e.type===tp);
-  set('exp-tbl',list.length?list.map(({v,e})=>`<tr><td><span class="plate">${v.plate}</span></td><td>${v.brand} ${v.model||''}</td><td><span class="tag">${e.type||'Diğer'}</span></td><td>${e.desc||'-'}</td><td>${fd(e.date)}</td><td><span class="mono" style="color:var(---accent2)">₺${fmt(e.amount)}</span></td></tr>`).join(''):emptyRow(6));
+  set('exp-tbl',list.length?list.map(({v,e})=>`<tr><td><span class="plate">${v.plate}</span></td><td>${v.brand} ${v.model||''}</td><td><span class="tag">${e.type||'Diğer'}</span></td><td>${e.desc||'-'}</td><td>${fd(e.date)}</td><td><span class="mono" style="color:var(--accent2)">₺${fmt(e.amount)}</span></td></tr>`).join(''):emptyRow(6));
 }
 
 // ── GİDER TABLE ──────────────────────────────────────────────────
@@ -665,7 +665,7 @@ function renderGiderTbl(){
   if(_gF!=='all')list=list.filter(g=>g.kat===_gF);
   if(q)list=list.filter(g=>((g.kat||'')+(g.aciklama||'')).toLowerCase().includes(q));
   list.sort((a,b)=>_gSortDir*(a[_gSortKey]>b[_gSortKey]?1:-1));
-  set('g-tbl',list.length?list.map(g=>`<tr><td>${fd(g.tarih)}</td><td><span class="tag">${g.kat||'-'}</span></td><td>${g.aciklama||'-'}</td><td><span class="mono neg">₺${fmt(g.amount)}</span></td><td style="font-size:12px;color:var(---t3)">${g.odeme||''}</td><td onclick="event.stopPropagation()"><button class="btn btn-danger btn-xs" onclick="delGider('${g.id}')">🗑</button></td></tr>`).join(''):emptyRow(6,'Gider kaydı yok'));
+  set('g-tbl',list.length?list.map(g=>`<tr><td>${fd(g.tarih)}</td><td><span class="tag">${g.kat||'-'}</span></td><td>${g.aciklama||'-'}</td><td><span class="mono neg">₺${fmt(g.amount)}</span></td><td style="font-size:12px;color:var(--t3)">${g.odeme||''}</td><td onclick="event.stopPropagation()"><button class="btn btn-danger btn-xs" onclick="delGider('${g.id}')">🗑</button></td></tr>`).join(''):emptyRow(6,'Gider kaydı yok'));
 }
 function gf(f,el){_gF=f;document.querySelectorAll('#page-giderler .filter-pill').forEach(b=>b.classList.remove('on'));el.classList.add('on');renderGiderTbl();}
 function gsort(k){if(_gSortKey===k)_gSortDir*=-1;else{_gSortKey=k;_gSortDir=-1;}renderGiderTbl();}
@@ -707,21 +707,21 @@ function renderReports(){
   set('r-gider','₺'+fmt(tg));set('r-net','₺'+fmt(net));set('r-adet',sold.length);
   const te=[...vehicles].map(v=>({v,e:tExp(v)})).sort((a,b)=>b.e-a.e).slice(0,5);
   const mE=te[0]?.e||1;
-  set('r-topexp',te.length?te.map(({v,e})=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px">${v.plate} - ${v.brand}</span><span class="mono" style="color:var(---accent2);font-size:12px">₺${fmt(e)}</span></div><div class="profit-bar"><div class="profit-fill" style="width:${Math.round((e/mE)*100)}%;background:var(---accent2)"></div></div></div>`).join(''):nada());
+  set('r-topexp',te.length?te.map(({v,e})=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px">${v.plate} - ${v.brand}</span><span class="mono" style="color:var(--accent2);font-size:12px">₺${fmt(e)}</span></div><div class="profit-bar"><div class="profit-fill" style="width:${Math.round((e/mE)*100)}%;background:var(--accent2)"></div></div></div>`).join(''):nada());
   const tm={};vehicles.forEach(v=>(v.expenses||[]).forEach(e=>{tm[e.type||'Diğer']=(tm[e.type||'Diğer']||0)+e.amount;}));
   const ts=Object.entries(tm).sort((a,b)=>b[1]-a[1]);const mT=ts[0]?.[1]||1;
-  set('r-exptype',ts.length?ts.map(([t,a])=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px">${t}</span><span class="mono" style="color:var(---blue);font-size:12px">₺${fmt(a)}</span></div><div class="profit-bar"><div class="profit-fill" style="width:${Math.round((a/mT)*100)}%;background:var(---blue)"></div></div></div>`).join(''):nada());
+  set('r-exptype',ts.length?ts.map(([t,a])=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px">${t}</span><span class="mono" style="color:var(--blue);font-size:12px">₺${fmt(a)}</span></div><div class="profit-bar"><div class="profit-fill" style="width:${Math.round((a/mT)*100)}%;background:var(--blue)"></div></div></div>`).join(''):nada());
   const tk=sold.map(v=>({v,k:(v.sellPrice||0)-(v.buyPrice||0)-tExp(v)})).sort((a,b)=>b.k-a.k).slice(0,5);const mK=Math.max(...tk.map(x=>Math.abs(x.k)),1);
-  set('r-topkar',tk.length?tk.map(({v,k})=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px">${v.plate} - ${v.brand}</span><span class="mono ${k>=0?'pos':'neg'}" style="font-size:12px">${k>=0?'+':''}₺${fmt(k)}</span></div><div class="profit-bar"><div class="profit-fill" style="width:${Math.round((Math.abs(k)/mK)*100)}%;background:${k>=0?'var(---green)':'var(---red)'}"></div></div></div>`).join(''):nada());
+  set('r-topkar',tk.length?tk.map(({v,k})=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px">${v.plate} - ${v.brand}</span><span class="mono ${k>=0?'pos':'neg'}" style="font-size:12px">${k>=0?'+':''}₺${fmt(k)}</span></div><div class="profit-bar"><div class="profit-fill" style="width:${Math.round((Math.abs(k)/mK)*100)}%;background:${k>=0?'var(--green)':'var(--red)'}"></div></div></div>`).join(''):nada());
   const aB=vehicles.length?Math.round(vehicles.reduce((s,v)=>s+(v.buyPrice||0),0)/vehicles.length):0;
   const aS=sold.length?Math.round(rev/sold.length):0;
   const aK=sold.length?Math.round(brut/sold.length):0;
-  set('r-avg',`<div style="display:grid;gap:10px">${ar('Ort. Alış Fiyatı','₺'+fmt(aB),'var(---accent)')}${ar('Ort. Satış Fiyatı','₺'+fmt(aS),'var(---green)')}${ar('Ort. Brüt Kâr / Araç','₺'+fmt(aK),aK>=0?'var(---green)':'var(---red)')}${ar('Toplam Satılan',''+sold.length+' araç','var(---blue)')}</div>`);
+  set('r-avg',`<div style="display:grid;gap:10px">${ar('Ort. Alış Fiyatı','₺'+fmt(aB),'var(--accent)')}${ar('Ort. Satış Fiyatı','₺'+fmt(aS),'var(--green)')}${ar('Ort. Brüt Kâr / Araç','₺'+fmt(aK),aK>=0?'var(--green)':'var(--red)')}${ar('Toplam Satılan',''+sold.length+' araç','var(--blue)')}</div>`);
   const sv=vehicles.filter(v=>v.status==='stok').map(v=>({v,m:(v.buyPrice||0)+tExp(v)})).sort((a,b)=>b.m-a.m);
   const ttl=sv.reduce((s,r)=>s+r.m,0),tal=sv.reduce((s,r)=>s+(r.v.buyPrice||0),0),tms=sv.reduce((s,r)=>s+tExp(r.v),0);
-  set('r-stokval',sv.length?`<table><thead><tr><th>Plaka</th><th>Araç</th><th>Tür</th><th>Alış ₺</th><th>Masraf</th><th>Toplam Maliyet</th></tr></thead><tbody>${sv.map(({v,m})=>`<tr onclick="openDetail('${v.id}')"><td><span class="plate">${v.plate}</span></td><td>${v.brand} ${v.model||''} ${v.year?'<span class="muted">'+v.year+'</span>':''}</td><td>${vtb(v)}</td><td><span class="mono">₺${fmt(v.buyPrice)}</span></td><td><span class="mono" style="color:var(---accent2)">₺${fmt(tExp(v))}</span></td><td><span class="mono" style="color:var(---accent)">₺${fmt(m)}</span></td></tr>`).join('')}<tr style="background:var(---s2);font-weight:700"><td colspan="3" style="text-align:right;color:var(---t2);font-size:12px">TOPLAM (${sv.length} araç)</td><td><span class="mono">₺${fmt(tal)}</span></td><td><span class="mono" style="color:var(---accent2)">₺${fmt(tms)}</span></td><td><span class="mono" style="color:var(---accent)">₺${fmt(ttl)}</span></td></tr></tbody></table>`:'<div class="empty"><div class="empty-ico">📦</div><div class="empty-txt">Stokta araç yok</div></div>');
+  set('r-stokval',sv.length?`<table><thead><tr><th>Plaka</th><th>Araç</th><th>Tür</th><th>Alış ₺</th><th>Masraf</th><th>Toplam Maliyet</th></tr></thead><tbody>${sv.map(({v,m})=>`<tr onclick="openDetail('${v.id}')"><td><span class="plate">${v.plate}</span></td><td>${v.brand} ${v.model||''} ${v.year?'<span class="muted">'+v.year+'</span>':''}</td><td>${vtb(v)}</td><td><span class="mono">₺${fmt(v.buyPrice)}</span></td><td><span class="mono" style="color:var(--accent2)">₺${fmt(tExp(v))}</span></td><td><span class="mono" style="color:var(--accent)">₺${fmt(m)}</span></td></tr>`).join('')}<tr style="background:var(--s2);font-weight:700"><td colspan="3" style="text-align:right;color:var(--t2);font-size:12px">TOPLAM (${sv.length} araç)</td><td><span class="mono">₺${fmt(tal)}</span></td><td><span class="mono" style="color:var(--accent2)">₺${fmt(tms)}</span></td><td><span class="mono" style="color:var(--accent)">₺${fmt(ttl)}</span></td></tr></tbody></table>`:'<div class="empty"><div class="empty-ico">📦</div><div class="empty-txt">Stokta araç yok</div></div>');
 }
-function ar(k,v,c){return`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(---border)"><span style="font-size:13px;color:var(---t2)">${k}</span><span class="mono" style="color:${c};font-size:14px">${v}</span></div>`;}
+function ar(k,v,c){return`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="font-size:13px;color:var(--t2)">${k}</span><span class="mono" style="color:${c};font-size:14px">${v}</span></div>`;}
 
 // ── GİDER ────────────────────────────────────────────────────────
 function openGiderModal(){document.getElementById('gTarih').value=today();document.getElementById('gTutar').value='';document.getElementById('gAciklama').value='';document.getElementById('gKat').value='';bindMoneyInputs();openM('giderModal');}
@@ -742,7 +742,7 @@ function doMega(q){
   const drop=document.getElementById('searchDrop');
   if(!q){drop.classList.remove('open');return;}
   const ql=q.toLowerCase(),res=vehicles.filter(v=>srch(v).includes(ql)).slice(0,10);
-  drop.innerHTML=res.length?`<div class="srd-header">${res.length} araç bulundu</div>`+res.map(v=>`<div class="srd-item" onclick="openDetail('${v.id}');megaClearFn()"><span class="srd-plate">${hlq(v.plate,ql)}</span><div class="srd-info"><div class="srd-name">${hlq(v.brand+' '+(v.model||''),ql)} <span style="color:var(---t3)">${v.year||''}</span></div><div class="srd-meta">${v.seller?'Alınan: '+hlq(v.seller,ql):''} ${v.buyer?'· Satılan: '+hlq(v.buyer,ql):''} ${v.konsinyeOwner?'· Konsinye: '+hlq(v.konsinyeOwner,ql):''}</div></div><span>${vtb(v)}</span></div>`).join(''):`<div class="srd-empty">Sonuç yok - "<strong>${q}</strong>"</div>`;
+  drop.innerHTML=res.length?`<div class="srd-header">${res.length} araç bulundu</div>`+res.map(v=>`<div class="srd-item" onclick="openDetail('${v.id}');megaClearFn()"><span class="srd-plate">${hlq(v.plate,ql)}</span><div class="srd-info"><div class="srd-name">${hlq(v.brand+' '+(v.model||''),ql)} <span style="color:var(--t3)">${v.year||''}</span></div><div class="srd-meta">${v.seller?'Alınan: '+hlq(v.seller,ql):''} ${v.buyer?'· Satılan: '+hlq(v.buyer,ql):''} ${v.konsinyeOwner?'· Konsinye: '+hlq(v.konsinyeOwner,ql):''}</div></div><span>${vtb(v)}</span></div>`).join(''):`<div class="srd-empty">Sonuç yok - "<strong>${q}</strong>"</div>`;
   drop.classList.add('open');
 }
 function hlq(t,q){if(!t||!q)return t||'';return String(t).replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<span class="highlight">$1</span>');}
@@ -898,7 +898,7 @@ function addExp(){
 function renderExpList(){
   const total=tempExp.reduce((s,e)=>s+e.amount,0);
   document.getElementById('expList').innerHTML=tempExp.length
-    ?tempExp.map(e=>`<div class="exp-item"><span class="exp-ico">${EICO[e.type]||'💰'}</span><div class="exp-info"><div class="exp-desc">${e.type}${e.desc?' - '+e.desc:''}</div><div class="exp-date">${fd(e.date)}</div></div><span class="exp-amt">₺${fmt(e.amount)}</span><button class="exp-del" onclick="removeExp('${e.id}')">✕</button></div>`).join('')+`<div style="text-align:right;font-size:12px;color:var(---t2);padding:6px 2px">Toplam: <strong style="color:var(---accent2)">₺${fmt(total)}</strong></div>`
+    ?tempExp.map(e=>`<div class="exp-item"><span class="exp-ico">${EICO[e.type]||'💰'}</span><div class="exp-info"><div class="exp-desc">${e.type}${e.desc?' - '+e.desc:''}</div><div class="exp-date">${fd(e.date)}</div></div><span class="exp-amt">₺${fmt(e.amount)}</span><button class="exp-del" onclick="removeExp('${e.id}')">✕</button></div>`).join('')+`<div style="text-align:right;font-size:12px;color:var(--t2);padding:6px 2px">Toplam: <strong style="color:var(--accent2)">₺${fmt(total)}</strong></div>`
     :'';
 }
 function removeExp(id){tempExp=tempExp.filter(e=>e.id!==id);renderExpList();}
@@ -911,7 +911,7 @@ function openDetail(id){
   const exp=tExp(v),profit=v.status==='satildi'?(v.sellPrice||0)-(v.buyPrice||0)-exp:null;
   document.getElementById('dtlBody').innerHTML=`
     <div class="dtl-grid">
-      <div class="dtl-row"><span class="dtl-k">Plaka</span><span class="dtl-v" style="font-family:'JetBrains Mono',monospace;color:var(---accent)">${v.plate}</span></div>
+      <div class="dtl-row"><span class="dtl-k">Plaka</span><span class="dtl-v" style="font-family:'JetBrains Mono',monospace;color:var(--accent)">${v.plate}</span></div>
       <div class="dtl-row"><span class="dtl-k">Araç Türü</span><span class="dtl-v">${vtb(v)}</span></div>
       <div class="dtl-row"><span class="dtl-k">Marka / Model</span><span class="dtl-v">${v.brand} ${v.model||''}</span></div>
       <div class="dtl-row"><span class="dtl-k">Yıl</span><span class="dtl-v">${v.year||'-'}</span></div>
@@ -923,7 +923,7 @@ function openDetail(id){
       <div class="dtl-row"><span class="dtl-k">Alınan Kişi</span><span class="dtl-v">${v.seller||'-'}</span></div>
       <div class="dtl-row"><span class="dtl-k">Alınan Şehir</span><span class="dtl-v">${v.buyCity||'-'}</span></div>
       ${v.sellerNote?`<div class="dtl-row full"><span class="dtl-k">Alınan Kişi Tel/Not</span><span class="dtl-v">${v.sellerNote}</span></div>`:''}
-      ${v.vtype==='konsinye'?`<div class="dtl-row full"><span class="dtl-k">Konsinye Sahibi</span><span class="dtl-v" style="color:var(---purple)">${v.konsinyeOwner||'-'}</span></div>`:''}
+      ${v.vtype==='konsinye'?`<div class="dtl-row full"><span class="dtl-k">Konsinye Sahibi</span><span class="dtl-v" style="color:var(--purple)">${v.konsinyeOwner||'-'}</span></div>`:''}
       ${v.status==='satildi'?`
         <div class="dtl-row"><span class="dtl-k">Satış Tarihi</span><span class="dtl-v">${fd(v.sellDate)}</span></div>
         <div class="dtl-row"><span class="dtl-k">Satış Fiyatı</span><span class="dtl-v mono pos">₺${fmt(v.sellPrice)}</span></div>
@@ -931,10 +931,10 @@ function openDetail(id){
         <div class="dtl-row"><span class="dtl-k">Satılan Kişi Tel</span><span class="dtl-v">${v.buyerTel||'-'}</span></div>
         ${v.sellNote?`<div class="dtl-row full"><span class="dtl-k">Satış Notu</span><span class="dtl-v">${v.sellNote}</span></div>`:''}
       `:''}
-      <div class="dtl-row"><span class="dtl-k">Araç Masrafı</span><span class="dtl-v mono" style="color:var(---accent2)">₺${fmt(exp)}</span></div>
-      <div class="dtl-row"><span class="dtl-k">Toplam Maliyet</span><span class="dtl-v mono" style="color:var(---t2)">₺${fmt((v.buyPrice||0)+exp)}</span></div>
+      <div class="dtl-row"><span class="dtl-k">Araç Masrafı</span><span class="dtl-v mono" style="color:var(--accent2)">₺${fmt(exp)}</span></div>
+      <div class="dtl-row"><span class="dtl-k">Toplam Maliyet</span><span class="dtl-v mono" style="color:var(--t2)">₺${fmt((v.buyPrice||0)+exp)}</span></div>
       ${profit!==null?`<div class="dtl-row full"><span class="dtl-k">Brüt Kâr</span><span class="dtl-v mono ${profit>=0?'pos':'neg'}" style="font-size:20px">${profit>=0?'+':''}₺${fmt(profit)}</span></div>`:''}
-      ${v.notes?`<div class="dtl-row full"><span class="dtl-k">Notlar</span><span class="dtl-v" style="color:var(---t2);white-space:pre-wrap">${v.notes}</span></div>`:''}
+      ${v.notes?`<div class="dtl-row full"><span class="dtl-k">Notlar</span><span class="dtl-v" style="color:var(--t2);white-space:pre-wrap">${v.notes}</span></div>`:''}
     </div>
     ${(v.expenses||[]).length?`<div style="margin-top:16px"><div class="fsec-ttl" style="margin-top:0">MASRAFLAR - Toplam ₺${fmt(exp)}</div><div class="exp-list">${v.expenses.map(e=>`<div class="exp-item"><span class="exp-ico">${EICO[e.type]||'💰'}</span><div class="exp-info"><div class="exp-desc">${e.type||''}${e.desc?' - '+e.desc:''}</div><div class="exp-date">${fd(e.date)}</div></div><span class="exp-amt">₺${fmt(e.amount)}</span></div>`).join('')}</div></div>`:''}
   `;
@@ -1110,7 +1110,7 @@ function today(){
 }
 function set(id,html){const el=document.getElementById(id);if(el)el.innerHTML=html;}
 function emptyRow(cols,msg='Kayıt bulunamadı'){return `<tr><td colspan="${cols}"><div class="empty"><div class="empty-ico">🔍</div><div class="empty-txt">${msg}</div></div></td></tr>`;}
-function nada(){return '<div style="color:var(---t3);font-size:13px;padding:10px 0">Yeterli veri yok.</div>';}
+function nada(){return '<div style="color:var(--t3);font-size:13px;padding:10px 0">Yeterli veri yok.</div>';}
 
 function moneyDigits(v){return String(v??'').replace(/\D/g,'');}
 function moneyFormatInputValue(v){const digits=moneyDigits(v);return digits?Number(digits).toLocaleString('tr-TR'):'';}
