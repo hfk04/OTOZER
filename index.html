@@ -28,19 +28,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .topbar{position:sticky;top:0;z-index:100;background:rgba(9,9,12,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 28px;height:58px;display:flex;align-items:center;gap:14px}
 .topbar-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1.5px;white-space:nowrap}
 .topbar-right{margin-left:auto;display:flex;gap:9px;align-items:center}
-
-.mobile-menu-btn{display:none;width:42px;height:42px;border:1px solid var(--border);border-radius:12px;background:var(--s2);color:var(--text);align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
-.mobile-menu-btn:hover{background:var(--s3);border-color:var(--border2)}
-.mobile-menu-ico{position:relative;width:18px;height:14px;display:block}
-.mobile-menu-ico span{position:absolute;left:0;right:0;height:2px;background:currentColor;border-radius:2px;transition:transform .2s,opacity .2s,top .2s}
-.mobile-menu-ico span:nth-child(1){top:0}
-.mobile-menu-ico span:nth-child(2){top:6px}
-.mobile-menu-ico span:nth-child(3){top:12px}
-body.mobile-nav-open .mobile-menu-ico span:nth-child(1){top:6px;transform:rotate(45deg)}
-body.mobile-nav-open .mobile-menu-ico span:nth-child(2){opacity:0}
-body.mobile-nav-open .mobile-menu-ico span:nth-child(3){top:6px;transform:rotate(-45deg)}
-.mobile-nav-backdrop{display:none}
-
 .search-mega{position:relative;flex:1;max-width:480px}
 .search-mega input{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:9px 14px 9px 38px;color:var(--text);font-size:13.5px;font-family:inherit;outline:none;transition:all .2s}
 .search-mega input:focus{border-color:var(--accent);background:var(--s3);box-shadow:0 0 0 3px rgba(232,160,32,.1)}
@@ -224,32 +211,14 @@ textarea.finp{resize:vertical;min-height:75px}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:var(--t3)}
 @media(max-width:860px){
-  .mobile-menu-btn{display:inline-flex}
-  .mobile-nav-backdrop{display:block;position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);z-index:240;opacity:0;pointer-events:none;transition:opacity .22s ease}
-  body.mobile-nav-open .mobile-nav-backdrop{opacity:1;pointer-events:auto}
-  .sidebar{width:min(82vw,290px);transform:translateX(-100%);transition:transform .22s ease;z-index:260;box-shadow:var(--shadow)}
-  body.mobile-nav-open .sidebar{transform:translateX(0)}
-  .main{margin-left:0}
-  .topbar{padding:0 14px;height:64px;gap:10px}
-  .topbar-title{font-size:18px;letter-spacing:1px}
-  .topbar-right{gap:8px;min-width:0;flex:1}
-  .search-mega{max-width:none;min-width:0;flex:1}
-  .search-mega input{font-size:13px;padding-left:34px;padding-right:10px}
-  .btn-primary{padding:10px 14px}
+  .sidebar{width:56px}
+  .nav-item>span:not(.nav-icon):not(.nav-badge),.logo-sub,.logo-ag,.logo-pro{display:none}
+  .nav-icon{font-size:18px;width:auto}
+  .nav-item{justify-content:center;padding:13px}
+  .main{margin-left:56px}
   .stats-grid{grid-template-columns:1fr 1fr}
   .fg2,.fg3{grid-template-columns:1fr}
   .two-col{grid-template-columns:1fr}
-  .page{padding:18px 14px}
-  .tbl-wrap{overflow:auto}
-}
-@media(max-width:640px){
-  .topbar{align-items:center}
-  .topbar-right .btn-primary{font-size:12px;padding:10px 12px}
-  .topbar-title{font-size:16px}
-  .search-mega input{min-width:0}
-  .stats-grid{grid-template-columns:1fr}
-  .sec-hdr{gap:10px;align-items:flex-start}
-  .sec-hdr .btn{padding:8px 12px}
 }
 </style>
 </head>
@@ -275,13 +244,9 @@ textarea.finp{resize:vertical;min-height:75px}
     <div class="nav-item" onclick="goPage('reports')"><span class="nav-icon">📈</span><span>Raporlar</span></div>
   </div>
 </nav>
-<div class="mobile-nav-backdrop" id="mobileNavBackdrop" onclick="closeMobileNav()"></div>
 
 <div class="main">
   <div class="topbar">
-    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileNav()" aria-label="Menüyü aç/kapat">
-      <span class="mobile-menu-ico"><span></span><span></span><span></span></span>
-    </button>
     <div class="topbar-title" id="pageTitle">ANA SAYFA</div>
     <div class="topbar-right">
       <div class="search-mega" id="megaWrap">
@@ -306,7 +271,7 @@ textarea.finp{resize:vertical;min-height:75px}
       <div class="chart-card"><div class="chart-ttl">AYLIK SATIŞ (Son 6 Ay)</div><div class="bar-chart" id="barChart"></div></div>
       <div class="chart-card"><div class="chart-ttl">SON FAALİYETLER</div><div id="recentAct"></div></div>
     </div>
-    <div class="sec-hdr"><div class="sec-title">STOK - <span>HIZLI BAKIŞ</span></div></div>
+    <div class="sec-hdr"><div class="sec-title">STOK — <span>HIZLI BAKIŞ</span></div></div>
     <div class="tbl-wrap"><table><thead><tr><th>Plaka</th><th>Araç</th><th>Tür</th><th>Alış Tarihi</th><th>Alış ₺</th><th>Masraf</th><th>Toplam Maliyet</th></tr></thead><tbody id="dash-tbl"></tbody></table></div>
   </div>
 
@@ -423,15 +388,15 @@ textarea.finp{resize:vertical;min-height:75px}
     </div>
     <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
       <div class="stat c-purple"><div class="stat-lbl">Genel Gider</div><div class="stat-val" id="r-gider">₺0</div></div>
-      <div class="stat c-green"><div class="stat-lbl">Net Kâr</div><div class="stat-val" id="r-net">₺0</div><div class="stat-sub">Brüt - Gider</div></div>
+      <div class="stat c-green"><div class="stat-lbl">Net Kâr</div><div class="stat-val" id="r-net">₺0</div><div class="stat-sub">Brüt − Gider</div></div>
       <div class="stat c-amber"><div class="stat-lbl">Satış Adedi</div><div class="stat-val" id="r-adet">0</div></div>
     </div>
     <div class="two-col">
-      <div class="chart-card"><div class="chart-ttl">EN ÇOK MASRAF - ARAÇLAR</div><div id="r-topexp"></div></div>
+      <div class="chart-card"><div class="chart-ttl">EN ÇOK MASRAF — ARAÇLAR</div><div id="r-topexp"></div></div>
       <div class="chart-card"><div class="chart-ttl">MASRAF TÜRÜ DAĞILIMI</div><div id="r-exptype"></div></div>
     </div>
     <div class="two-col">
-      <div class="chart-card"><div class="chart-ttl">EN YÜKSEK KÂR - ARAÇLAR</div><div id="r-topkar"></div></div>
+      <div class="chart-card"><div class="chart-ttl">EN YÜKSEK KÂR — ARAÇLAR</div><div id="r-topkar"></div></div>
       <div class="chart-card"><div class="chart-ttl">ORTALAMA DEĞERLER</div><div id="r-avg"></div></div>
     </div>
     <div class="sec-hdr" style="margin-top:8px"><div class="sec-title">STOKTAKİ <span>ARAÇLAR DEĞERİ</span></div></div>
@@ -464,17 +429,17 @@ textarea.finp{resize:vertical;min-height:75px}
         <div class="fg"><label class="flbl">Model Yılı</label><input class="finp" id="fYear" placeholder="2022" readonly style="cursor:pointer" onclick="toggleYP()" autocomplete="off"><div class="year-picker" id="yearPicker"><div class="year-grid" id="yearGrid"></div></div></div>
         <div class="fg"><label class="flbl">KM</label><input class="finp" type="number" id="fKm" placeholder="85000"></div>
         <div class="fg"><label class="flbl">Renk</label>
-          <select class="finp" id="fColor"><option value="">-</option><option>Beyaz</option><option>Siyah</option><option>Gri</option><option>Gümüş</option><option>Kırmızı</option><option>Mavi</option><option>Lacivert</option><option>Yeşil</option><option>Sarı</option><option>Turuncu</option><option>Kahverengi</option><option>Bordo</option><option>Bej</option><option>Mor</option><option>Diğer</option></select>
+          <select class="finp" id="fColor"><option value="">—</option><option>Beyaz</option><option>Siyah</option><option>Gri</option><option>Gümüş</option><option>Kırmızı</option><option>Mavi</option><option>Lacivert</option><option>Yeşil</option><option>Sarı</option><option>Turuncu</option><option>Kahverengi</option><option>Bordo</option><option>Bej</option><option>Mor</option><option>Diğer</option></select>
         </div>
-        <div class="fg"><label class="flbl">Yakıt</label><select class="finp" id="fFuel"><option value="">-</option><option>Benzin</option><option>Dizel</option><option>LPG</option><option>Hibrit</option><option>Elektrik</option></select></div>
-        <div class="fg"><label class="flbl">Vites</label><select class="finp" id="fGear"><option value="">-</option><option>Manuel</option><option>Otomatik</option><option>Yarı Otomatik</option></select></div>
-        <div class="fg"><label class="flbl">Kasa</label><select class="finp" id="fBody"><option value="">-</option><option>Sedan</option><option>Hatchback</option><option>SUV</option><option>Pickup</option><option>Minivan</option><option>Coupe</option><option>Cabrio</option></select></div>
+        <div class="fg"><label class="flbl">Yakıt</label><select class="finp" id="fFuel"><option value="">—</option><option>Benzin</option><option>Dizel</option><option>LPG</option><option>Hibrit</option><option>Elektrik</option></select></div>
+        <div class="fg"><label class="flbl">Vites</label><select class="finp" id="fGear"><option value="">—</option><option>Manuel</option><option>Otomatik</option><option>Yarı Otomatik</option></select></div>
+        <div class="fg"><label class="flbl">Kasa</label><select class="finp" id="fBody"><option value="">—</option><option>Sedan</option><option>Hatchback</option><option>SUV</option><option>Pickup</option><option>Minivan</option><option>Coupe</option><option>Cabrio</option></select></div>
       </div>
 
       <div class="fsec"><div class="fsec-ttl">ALIŞ BİLGİLERİ</div>
         <div class="fg2">
           <div class="fg"><label class="flbl">Alış Tarihi *</label><input class="finp" type="date" id="fBuyDate"></div>
-          <div class="fg"><label class="flbl">Alış Fiyatı (₺) *</label><input class="finp" type="text" id="fBuyPrice" placeholder="350000" inputmode="numeric" autocomplete="off"></div>
+          <div class="fg"><label class="flbl">Alış Fiyatı (₺) *</label><input class="finp" type="number" id="fBuyPrice" placeholder="350000"></div>
           <div class="fg"><label class="flbl">Alınan Kişi / Firma</label><input class="finp" id="fSeller" placeholder="Ali Yılmaz..." autocomplete="off" oninput="acIn('fSeller','ac-seller',getSellers)" onfocus="acIn('fSeller','ac-seller',getSellers)"><div class="ac-drop" id="ac-seller"></div></div>
           <div class="fg"><label class="flbl">Alınan Şehir</label><input class="finp" id="fBuyCity" placeholder="İstanbul, Ankara..."></div>
           <div class="fg full"><label class="flbl">Alınan Kişi Tel / Not</label><input class="finp" id="fSellerNote" placeholder="0532 xxx xx xx..."></div>
@@ -484,7 +449,7 @@ textarea.finp{resize:vertical;min-height:75px}
       <div class="fsec"><div class="fsec-ttl">SATIŞ BİLGİLERİ <span style="color:var(--t3);font-size:9px;text-transform:none;font-weight:400">(doldurulursa otomatik satıldı)</span></div>
         <div class="fg2">
           <div class="fg"><label class="flbl">Satış Tarihi</label><input class="finp" type="date" id="fSellDate"></div>
-          <div class="fg"><label class="flbl">Satış Fiyatı (₺)</label><input class="finp" type="text" id="fSellPrice" placeholder="420000" inputmode="numeric" autocomplete="off"></div>
+          <div class="fg"><label class="flbl">Satış Fiyatı (₺)</label><input class="finp" type="number" id="fSellPrice" placeholder="420000"></div>
           <div class="fg"><label class="flbl">Satılan Kişi</label><input class="finp" id="fBuyer" placeholder="Mehmet Demir..." autocomplete="off" oninput="acIn('fBuyer','ac-buyer',getBuyers)" onfocus="acIn('fBuyer','ac-buyer',getBuyers)"><div class="ac-drop" id="ac-buyer"></div></div>
           <div class="fg"><label class="flbl">Satılan Kişi Tel</label><input class="finp" id="fBuyerTel" placeholder="0532 xxx xx xx..."></div>
           <div class="fg full"><label class="flbl">Satış Notu</label><textarea class="finp" id="fSellNote" placeholder="Garanti, eksik parça..."></textarea></div>
@@ -496,7 +461,7 @@ textarea.finp{resize:vertical;min-height:75px}
       <div class="fsec"><div class="fsec-ttl">MASRAF EKLE</div>
         <div class="fg3">
           <div class="fg"><label class="flbl">Tür</label><select class="finp" id="fExpType"><option value="">Seç...</option><option>Tamir / Bakım</option><option>Boya / Kaporta</option><option>Lastik</option><option>Döşeme / Detay</option><option>Ekspertiz</option><option>Sigorta</option><option>Vergi / Harç</option><option>Taşıma / Çekici</option><option>Diğer</option></select></div>
-          <div class="fg"><label class="flbl">Tutar (₺)</label><input class="finp" type="text" id="fExpAmt" placeholder="2500" inputmode="numeric" autocomplete="off"></div>
+          <div class="fg"><label class="flbl">Tutar (₺)</label><input class="finp" type="number" id="fExpAmt" placeholder="2500"></div>
           <div class="fg"><label class="flbl">Tarih</label><input class="finp" type="date" id="fExpDate"></div>
         </div>
         <div class="fg" style="margin-top:10px"><label class="flbl">Açıklama</label><input class="finp" id="fExpDesc" placeholder="Ön cam değişimi..."></div>
@@ -528,7 +493,7 @@ textarea.finp{resize:vertical;min-height:75px}
         <div class="fg"><label class="flbl">Kategori *</label><select class="finp" id="gKat"><option value="">Seç...</option><option>Kira</option><option>Personel</option><option>HGS / OGS</option><option>Vergi</option><option>Ceza</option><option>Elektrik / Su / Doğalgaz</option><option>Muhasebe</option><option>Reklam</option><option>Diğer</option></select></div>
         <div class="fg"><label class="flbl">Tarih *</label><input class="finp" type="date" id="gTarih"></div>
         <div class="fg full"><label class="flbl">Açıklama</label><input class="finp" id="gAciklama" placeholder="Ocak kirası, SGK..."></div>
-        <div class="fg"><label class="flbl">Tutar (₺) *</label><input class="finp" type="text" id="gTutar" placeholder="15000" inputmode="numeric" autocomplete="off"></div>
+        <div class="fg"><label class="flbl">Tutar (₺) *</label><input class="finp" type="number" id="gTutar" placeholder="15000"></div>
         <div class="fg"><label class="flbl">Ödeme Şekli</label><select class="finp" id="gOdeme"><option>Nakit</option><option>Banka</option><option>Kredi Kartı</option><option>EFT/Havale</option></select></div>
       </div>
     </div>
@@ -556,19 +521,12 @@ function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2
 // ── NAV ──────────────────────────────────────────────────────────
 const PTITLES={dashboard:'ANA SAYFA',search:'HIZLI ARAMA',vehicles:'STOK ARAÇLAR',sold:'SATILAN ARAÇLAR',all:'TÜM ARAÇLAR',expenses:'ARAÇ MASRAFLARI',giderler:'GENEL GİDERLER',reports:'RAPORLAR'};
 const PAGES=['dashboard','search','vehicles','sold','all','expenses','giderler','reports'];
-function toggleMobileNav(force){
-  const willOpen = typeof force==='boolean' ? force : !document.body.classList.contains('mobile-nav-open');
-  document.body.classList.toggle('mobile-nav-open', willOpen);
-}
-function closeMobileNav(){ toggleMobileNav(false); }
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeMobileNav(); });
 function goPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('page-'+id)?.classList.add('active');
   document.querySelectorAll('.nav-item')[PAGES.indexOf(id)]?.classList.add('active');
   document.getElementById('pageTitle').textContent=PTITLES[id]||'';
-  closeMobileNav();
   renderAll();
 }
 
@@ -598,7 +556,7 @@ function renderDashboard(){
   const mx=Math.max(...months.map(m=>m.cnt),1);
   set('barChart',months.map(m=>`<div class="bar-wrap"><div class="bar-val">${m.cnt||''}</div><div class="bar-outer"><div class="bar-inner" style="height:${Math.round((m.cnt/mx)*100)}%"></div></div><div class="bar-lbl">${m.lbl}</div></div>`).join(''));
   const rec=[...vehicles].sort((a,b)=>b.createdAt-a.createdAt).slice(0,6);
-  set('recentAct',rec.length?rec.map(v=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)"><span style="font-size:16px">${v.vtype==='konsinye'?'🤝':v.status==='stok'?'🚗':'✅'}</span><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.brand} ${v.model||''}</div><div style="font-size:11px;color:var(--t3)">${v.plate} - ${fd(v.buyDate)}</div></div><span class="badge ${v.status==='stok'?'b-stok':'b-satildi'}">${v.status==='stok'?'Stok':'Satıldı'}</span></div>`).join(''):'<div class="empty"><div class="empty-ico">🚗</div><div class="empty-txt">Henüz araç yok</div></div>');
+  set('recentAct',rec.length?rec.map(v=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)"><span style="font-size:16px">${v.vtype==='konsinye'?'🤝':v.status==='stok'?'🚗':'✅'}</span><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.brand} ${v.model||''}</div><div style="font-size:11px;color:var(--t3)">${v.plate} — ${fd(v.buyDate)}</div></div><span class="badge ${v.status==='stok'?'b-stok':'b-satildi'}">${v.status==='stok'?'Stok':'Satıldı'}</span></div>`).join(''):'<div class="empty"><div class="empty-ico">🚗</div><div class="empty-txt">Henüz araç yok</div></div>');
   set('dash-tbl',stok.length?stok.slice(0,8).map(v=>`<tr onclick="openDetail('${v.id}')"><td><span class="plate">${v.plate}</span></td><td><strong>${v.brand}</strong> ${v.model||''} <span class="muted">${v.year||''}</span></td><td>${vtb(v)}</td><td>${fd(v.buyDate)}</td><td><span class="mono">₺${fmt(v.buyPrice)}</span></td><td><span class="mono" style="color:var(--accent2)">₺${fmt(tExp(v))}</span></td><td><span class="mono" style="color:var(--t2)">₺${fmt((v.buyPrice||0)+tExp(v))}</span></td></tr>`).join(''):'<tr><td colspan="7"><div class="empty"><div class="empty-ico">🚗</div><div class="empty-txt">Stokta araç yok</div></div></td></tr>');
 }
 
@@ -616,7 +574,7 @@ function renderVTbl(){
   set('v-tbl',list.length?list.map(v=>`<tr onclick="openDetail('${v.id}')">
     <td><span class="plate">${v.plate}</span></td>
     <td><strong>${v.brand}</strong> ${v.model||''}</td>
-    <td>${v.year||'-'}</td><td>${fd(v.buyDate)}</td><td>${v.seller||'-'}</td>
+    <td>${v.year||'—'}</td><td>${fd(v.buyDate)}</td><td>${v.seller||'—'}</td>
     <td><span class="mono">₺${fmt(v.buyPrice)}</span></td>
     <td><span class="mono" style="color:var(--accent2)">₺${fmt(tExp(v))}</span></td>
     <td><span class="mono" style="color:var(--t2)">₺${fmt((v.buyPrice||0)+tExp(v))}</span></td>
@@ -633,7 +591,7 @@ function renderSoldTbl(){
   const q=(document.getElementById('soldSearch')?.value||'').toLowerCase();
   let list=vehicles.filter(v=>v.status==='satildi');
   if(q)list=list.filter(v=>srch(v).includes(q));
-  set('sold-tbl',list.length?list.map(v=>{const exp=tExp(v),kar=(v.sellPrice||0)-(v.buyPrice||0)-exp;return`<tr onclick="openDetail('${v.id}')"><td><span class="plate">${v.plate}</span></td><td>${v.brand} ${v.model||''}</td><td>${fd(v.buyDate)}</td><td>${v.seller||'-'}</td><td>${fd(v.sellDate)}</td><td>${v.buyer||'-'}</td><td><span class="mono">₺${fmt(v.buyPrice)}</span></td><td><span class="mono" style="color:var(--accent2)">₺${fmt(exp)}</span></td><td><span class="mono pos">₺${fmt(v.sellPrice)}</span></td><td><span class="mono ${kar>=0?'pos':'neg'}">${kar>=0?'+':''}₺${fmt(kar)}</span></td></tr>`;}).join(''):emptyRow(10));
+  set('sold-tbl',list.length?list.map(v=>{const exp=tExp(v),kar=(v.sellPrice||0)-(v.buyPrice||0)-exp;return`<tr onclick="openDetail('${v.id}')"><td><span class="plate">${v.plate}</span></td><td>${v.brand} ${v.model||''}</td><td>${fd(v.buyDate)}</td><td>${v.seller||'—'}</td><td>${fd(v.sellDate)}</td><td>${v.buyer||'—'}</td><td><span class="mono">₺${fmt(v.buyPrice)}</span></td><td><span class="mono" style="color:var(--accent2)">₺${fmt(exp)}</span></td><td><span class="mono pos">₺${fmt(v.sellPrice)}</span></td><td><span class="mono ${kar>=0?'pos':'neg'}">${kar>=0?'+':''}₺${fmt(kar)}</span></td></tr>`;}).join(''):emptyRow(10));
 }
 
 // ── ALL TABLE ────────────────────────────────────────────────────
@@ -642,7 +600,7 @@ function renderAllTbl(){
   let list=[...vehicles];
   if(_allF!=='all')list=list.filter(v=>v.status===_allF);
   if(q)list=list.filter(v=>srch(v).includes(q));
-  set('all-tbl',list.length?list.map(v=>{const exp=tExp(v),kar=v.status==='satildi'?(v.sellPrice||0)-(v.buyPrice||0)-exp:null;return`<tr onclick="openDetail('${v.id}')"><td><span class="plate">${v.plate}</span></td><td>${v.brand} ${v.model||''}</td><td>${v.year||'-'}</td><td>${vtb(v)}</td><td>${v.seller||'-'}</td><td>${fd(v.buyDate)}</td><td><span class="mono">₺${fmt(v.buyPrice)}</span></td><td>${v.buyer||'-'}</td><td>${fd(v.sellDate)}</td><td>${v.sellPrice?'<span class="mono pos">₺'+fmt(v.sellPrice)+'</span>':'-'}</td><td>${kar!==null?'<span class="mono '+(kar>=0?'pos':'neg')+'">'+(kar>=0?'+':'')+'₺'+fmt(kar)+'</span>':'-'}</td><td><span class="badge ${v.status==='stok'?'b-stok':'b-satildi'}">${v.status==='stok'?'Stok':'Satıldı'}</span></td><td onclick="event.stopPropagation()" style="white-space:nowrap"><button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();editVehicle('${v.id}')">✏</button> <button class="btn btn-danger btn-xs" onclick="event.stopPropagation();delVehicle('${v.id}')">🗑</button></td></tr>`;}).join(''):emptyRow(13));
+  set('all-tbl',list.length?list.map(v=>{const exp=tExp(v),kar=v.status==='satildi'?(v.sellPrice||0)-(v.buyPrice||0)-exp:null;return`<tr onclick="openDetail('${v.id}')"><td><span class="plate">${v.plate}</span></td><td>${v.brand} ${v.model||''}</td><td>${v.year||'—'}</td><td>${vtb(v)}</td><td>${v.seller||'—'}</td><td>${fd(v.buyDate)}</td><td><span class="mono">₺${fmt(v.buyPrice)}</span></td><td>${v.buyer||'—'}</td><td>${fd(v.sellDate)}</td><td>${v.sellPrice?'<span class="mono pos">₺'+fmt(v.sellPrice)+'</span>':'—'}</td><td>${kar!==null?'<span class="mono '+(kar>=0?'pos':'neg')+'">'+(kar>=0?'+':'')+'₺'+fmt(kar)+'</span>':'—'}</td><td><span class="badge ${v.status==='stok'?'b-stok':'b-satildi'}">${v.status==='stok'?'Stok':'Satıldı'}</span></td><td onclick="event.stopPropagation()" style="white-space:nowrap"><button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();editVehicle('${v.id}')">✏</button> <button class="btn btn-danger btn-xs" onclick="event.stopPropagation();delVehicle('${v.id}')">🗑</button></td></tr>`;}).join(''):emptyRow(13));
 }
 function allF(f,el){_allF=f;document.querySelectorAll('#page-all .filter-pill').forEach(b=>b.classList.remove('on'));el.classList.add('on');renderAllTbl();}
 
@@ -655,7 +613,7 @@ function renderExpTbl(){
   let list=rows;
   if(q)list=list.filter(({v,e})=>(v.plate+v.brand+(v.model||'')+(e.desc||'')+(e.type||'')).toLowerCase().includes(q));
   if(tp)list=list.filter(({e})=>e.type===tp);
-  set('exp-tbl',list.length?list.map(({v,e})=>`<tr><td><span class="plate">${v.plate}</span></td><td>${v.brand} ${v.model||''}</td><td><span class="tag">${e.type||'Diğer'}</span></td><td>${e.desc||'-'}</td><td>${fd(e.date)}</td><td><span class="mono" style="color:var(--accent2)">₺${fmt(e.amount)}</span></td></tr>`).join(''):emptyRow(6));
+  set('exp-tbl',list.length?list.map(({v,e})=>`<tr><td><span class="plate">${v.plate}</span></td><td>${v.brand} ${v.model||''}</td><td><span class="tag">${e.type||'Diğer'}</span></td><td>${e.desc||'—'}</td><td>${fd(e.date)}</td><td><span class="mono" style="color:var(--accent2)">₺${fmt(e.amount)}</span></td></tr>`).join(''):emptyRow(6));
 }
 
 // ── GİDER TABLE ──────────────────────────────────────────────────
@@ -665,7 +623,7 @@ function renderGiderTbl(){
   if(_gF!=='all')list=list.filter(g=>g.kat===_gF);
   if(q)list=list.filter(g=>((g.kat||'')+(g.aciklama||'')).toLowerCase().includes(q));
   list.sort((a,b)=>_gSortDir*(a[_gSortKey]>b[_gSortKey]?1:-1));
-  set('g-tbl',list.length?list.map(g=>`<tr><td>${fd(g.tarih)}</td><td><span class="tag">${g.kat||'-'}</span></td><td>${g.aciklama||'-'}</td><td><span class="mono neg">₺${fmt(g.amount)}</span></td><td style="font-size:12px;color:var(--t3)">${g.odeme||''}</td><td onclick="event.stopPropagation()"><button class="btn btn-danger btn-xs" onclick="delGider('${g.id}')">🗑</button></td></tr>`).join(''):emptyRow(6,'Gider kaydı yok'));
+  set('g-tbl',list.length?list.map(g=>`<tr><td>${fd(g.tarih)}</td><td><span class="tag">${g.kat||'—'}</span></td><td>${g.aciklama||'—'}</td><td><span class="mono neg">₺${fmt(g.amount)}</span></td><td style="font-size:12px;color:var(--t3)">${g.odeme||''}</td><td onclick="event.stopPropagation()"><button class="btn btn-danger btn-xs" onclick="delGider('${g.id}')">🗑</button></td></tr>`).join(''):emptyRow(6,'Gider kaydı yok'));
 }
 function gf(f,el){_gF=f;document.querySelectorAll('#page-giderler .filter-pill').forEach(b=>b.classList.remove('on'));el.classList.add('on');renderGiderTbl();}
 function gsort(k){if(_gSortKey===k)_gSortDir*=-1;else{_gSortKey=k;_gSortDir=-1;}renderGiderTbl();}
@@ -707,12 +665,12 @@ function renderReports(){
   set('r-gider','₺'+fmt(tg));set('r-net','₺'+fmt(net));set('r-adet',sold.length);
   const te=[...vehicles].map(v=>({v,e:tExp(v)})).sort((a,b)=>b.e-a.e).slice(0,5);
   const mE=te[0]?.e||1;
-  set('r-topexp',te.length?te.map(({v,e})=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px">${v.plate} - ${v.brand}</span><span class="mono" style="color:var(--accent2);font-size:12px">₺${fmt(e)}</span></div><div class="profit-bar"><div class="profit-fill" style="width:${Math.round((e/mE)*100)}%;background:var(--accent2)"></div></div></div>`).join(''):nada());
+  set('r-topexp',te.length?te.map(({v,e})=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px">${v.plate} — ${v.brand}</span><span class="mono" style="color:var(--accent2);font-size:12px">₺${fmt(e)}</span></div><div class="profit-bar"><div class="profit-fill" style="width:${Math.round((e/mE)*100)}%;background:var(--accent2)"></div></div></div>`).join(''):nada());
   const tm={};vehicles.forEach(v=>(v.expenses||[]).forEach(e=>{tm[e.type||'Diğer']=(tm[e.type||'Diğer']||0)+e.amount;}));
   const ts=Object.entries(tm).sort((a,b)=>b[1]-a[1]);const mT=ts[0]?.[1]||1;
   set('r-exptype',ts.length?ts.map(([t,a])=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px">${t}</span><span class="mono" style="color:var(--blue);font-size:12px">₺${fmt(a)}</span></div><div class="profit-bar"><div class="profit-fill" style="width:${Math.round((a/mT)*100)}%;background:var(--blue)"></div></div></div>`).join(''):nada());
   const tk=sold.map(v=>({v,k:(v.sellPrice||0)-(v.buyPrice||0)-tExp(v)})).sort((a,b)=>b.k-a.k).slice(0,5);const mK=Math.max(...tk.map(x=>Math.abs(x.k)),1);
-  set('r-topkar',tk.length?tk.map(({v,k})=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px">${v.plate} - ${v.brand}</span><span class="mono ${k>=0?'pos':'neg'}" style="font-size:12px">${k>=0?'+':''}₺${fmt(k)}</span></div><div class="profit-bar"><div class="profit-fill" style="width:${Math.round((Math.abs(k)/mK)*100)}%;background:${k>=0?'var(--green)':'var(--red)'}"></div></div></div>`).join(''):nada());
+  set('r-topkar',tk.length?tk.map(({v,k})=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px">${v.plate} — ${v.brand}</span><span class="mono ${k>=0?'pos':'neg'}" style="font-size:12px">${k>=0?'+':''}₺${fmt(k)}</span></div><div class="profit-bar"><div class="profit-fill" style="width:${Math.round((Math.abs(k)/mK)*100)}%;background:${k>=0?'var(--green)':'var(--red)'}"></div></div></div>`).join(''):nada());
   const aB=vehicles.length?Math.round(vehicles.reduce((s,v)=>s+(v.buyPrice||0),0)/vehicles.length):0;
   const aS=sold.length?Math.round(rev/sold.length):0;
   const aK=sold.length?Math.round(brut/sold.length):0;
@@ -724,9 +682,9 @@ function renderReports(){
 function ar(k,v,c){return`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="font-size:13px;color:var(--t2)">${k}</span><span class="mono" style="color:${c};font-size:14px">${v}</span></div>`;}
 
 // ── GİDER ────────────────────────────────────────────────────────
-function openGiderModal(){document.getElementById('gTarih').value=today();document.getElementById('gTutar').value='';document.getElementById('gAciklama').value='';document.getElementById('gKat').value='';bindMoneyInputs();openM('giderModal');}
+function openGiderModal(){document.getElementById('gTarih').value=today();document.getElementById('gTutar').value='';document.getElementById('gAciklama').value='';document.getElementById('gKat').value='';openM('giderModal');}
 function saveGider(){
-  const kat=document.getElementById('gKat').value,tarih=document.getElementById('gTarih').value,amount=moneyParse(document.getElementById('gTutar').value);
+  const kat=document.getElementById('gKat').value,tarih=document.getElementById('gTarih').value,amount=parseFloat(document.getElementById('gTutar').value)||0;
   if(!kat||!tarih||!amount){notify('❗ Kategori, tarih ve tutar zorunlu','err');return;}
   const g={id:uid(),kat,tarih,amount,aciklama:document.getElementById('gAciklama').value.trim(),odeme:document.getElementById('gOdeme').value,createdAt:Date.now()};
   giderler.push(g);persist();renderAll();closeM('giderModal');notify('✅ Gider kaydedildi');
@@ -742,7 +700,7 @@ function doMega(q){
   const drop=document.getElementById('searchDrop');
   if(!q){drop.classList.remove('open');return;}
   const ql=q.toLowerCase(),res=vehicles.filter(v=>srch(v).includes(ql)).slice(0,10);
-  drop.innerHTML=res.length?`<div class="srd-header">${res.length} araç bulundu</div>`+res.map(v=>`<div class="srd-item" onclick="openDetail('${v.id}');megaClearFn()"><span class="srd-plate">${hlq(v.plate,ql)}</span><div class="srd-info"><div class="srd-name">${hlq(v.brand+' '+(v.model||''),ql)} <span style="color:var(--t3)">${v.year||''}</span></div><div class="srd-meta">${v.seller?'Alınan: '+hlq(v.seller,ql):''} ${v.buyer?'· Satılan: '+hlq(v.buyer,ql):''} ${v.konsinyeOwner?'· Konsinye: '+hlq(v.konsinyeOwner,ql):''}</div></div><span>${vtb(v)}</span></div>`).join(''):`<div class="srd-empty">Sonuç yok - "<strong>${q}</strong>"</div>`;
+  drop.innerHTML=res.length?`<div class="srd-header">${res.length} araç bulundu</div>`+res.map(v=>`<div class="srd-item" onclick="openDetail('${v.id}');megaClearFn()"><span class="srd-plate">${hlq(v.plate,ql)}</span><div class="srd-info"><div class="srd-name">${hlq(v.brand+' '+(v.model||''),ql)} <span style="color:var(--t3)">${v.year||''}</span></div><div class="srd-meta">${v.seller?'Alınan: '+hlq(v.seller,ql):''} ${v.buyer?'· Satılan: '+hlq(v.buyer,ql):''} ${v.konsinyeOwner?'· Konsinye: '+hlq(v.konsinyeOwner,ql):''}</div></div><span>${vtb(v)}</span></div>`).join(''):`<div class="srd-empty">Sonuç yok — "<strong>${q}</strong>"</div>`;
   drop.classList.add('open');
 }
 function hlq(t,q){if(!t||!q)return t||'';return String(t).replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<span class="highlight">$1</span>');}
@@ -758,8 +716,8 @@ function renderSP(){
   if(_spCat==='konsinye')list=list.filter(v=>(v.vtype||'galeri')==='konsinye');
   else if(_spCat!=='all')list=list.filter(v=>v.status===_spCat);
   if(ql)list=list.filter(v=>srch(v).includes(ql));
-  document.getElementById('spStats').textContent=`${list.length} araç bulundu${ql?' - "'+_spQ+'"':''}`;
-  set('sp-tbl',list.length?list.map(v=>`<tr onclick="openDetail('${v.id}')"><td><span class="plate">${hlq(v.plate,ql)}</span></td><td><strong>${hlq(v.brand,ql)}</strong> ${hlq(v.model||'',ql)}</td><td>${v.year||'-'}</td><td>${vtb(v)}</td><td>${fd(v.buyDate)}</td><td>${hlq(v.seller||'-',ql)}</td><td><span class="mono">₺${fmt(v.buyPrice)}</span></td><td>${fd(v.sellDate)}</td><td>${hlq(v.buyer||'-',ql)}</td><td>${v.sellPrice?'<span class="mono pos">₺'+fmt(v.sellPrice)+'</span>':'-'}</td><td><span class="badge ${v.status==='stok'?'b-stok':'b-satildi'}">${v.status==='stok'?'Stok':'Satıldı'}</span></td></tr>`).join(''):emptyRow(11));
+  document.getElementById('spStats').textContent=`${list.length} araç bulundu${ql?' — "'+_spQ+'"':''}`;
+  set('sp-tbl',list.length?list.map(v=>`<tr onclick="openDetail('${v.id}')"><td><span class="plate">${hlq(v.plate,ql)}</span></td><td><strong>${hlq(v.brand,ql)}</strong> ${hlq(v.model||'',ql)}</td><td>${v.year||'—'}</td><td>${vtb(v)}</td><td>${fd(v.buyDate)}</td><td>${hlq(v.seller||'—',ql)}</td><td><span class="mono">₺${fmt(v.buyPrice)}</span></td><td>${fd(v.sellDate)}</td><td>${hlq(v.buyer||'—',ql)}</td><td>${v.sellPrice?'<span class="mono pos">₺'+fmt(v.sellPrice)+'</span>':'—'}</td><td><span class="badge ${v.status==='stok'?'b-stok':'b-satildi'}">${v.status==='stok'?'Stok':'Satıldı'}</span></td></tr>`).join(''):emptyRow(11));
 }
 
 // ── AUTOCOMPLETE ─────────────────────────────────────────────────
@@ -843,29 +801,29 @@ function openAddModal(){
   clearForm();setVT('galeri');
   document.getElementById('fBuyDate').value=today();
   document.getElementById('fExpDate').value=today();
-  renderExpList();bindMoneyInputs();openM('vehicleModal');
+  renderExpList();openM('vehicleModal');
 }
 function editVehicle(id){
   const v=vehicles.find(x=>x.id===id);if(!v)return;
   editId=id;
-  document.getElementById('mTitle').textContent='DÜZENLE - '+v.plate;
+  document.getElementById('mTitle').textContent='DÜZENLE — '+v.plate;
   setVT(v.vtype||'galeri');
   document.getElementById('fKoOwner').value=v.konsinyeOwner||'';
   const FM={fPlate:'plate',fBrand:'brand',fModel:'model',fKm:'km',fBuyPrice:'buyPrice',fSeller:'seller',fBuyCity:'buyCity',fSellerNote:'sellerNote',fSellPrice:'sellPrice',fBuyer:'buyer',fBuyerTel:'buyerTel',fSellNote:'sellNote',fNotes:'notes',fColor:'color',fFuel:'fuel',fGear:'gear',fBody:'body'};
-  Object.entries(FM).forEach(([el,key])=>{const e=document.getElementById(el);if(!e)return; const raw=v[key]||''; e.value=['fBuyPrice','fSellPrice'].includes(el)?moneyFormatInputValue(raw):raw;});
+  Object.entries(FM).forEach(([el,key])=>{const e=document.getElementById(el);if(e)e.value=v[key]||'';});
   document.getElementById('fBuyDate').value=normDate(v.buyDate);
   document.getElementById('fSellDate').value=normDate(v.sellDate);
   document.getElementById('fYear').value=v.year||'';
-  tempExp=[...(v.expenses||[])];renderExpList();bindMoneyInputs();closeM('detailModal');openM('vehicleModal');
+  tempExp=[...(v.expenses||[])];renderExpList();closeM('detailModal');openM('vehicleModal');
 }
 function editCurrent(){editVehicle(detailId);}
 function clearForm(){document.querySelectorAll('#vehicleModal .finp').forEach(el=>{if(el.tagName!=='SELECT')el.value='';else el.selectedIndex=0;});tempExp=[];}
 function saveVehicle(){
   const g=id=>document.getElementById(id)?.value?.trim();
-  const plate=(g('fPlate')||'').toUpperCase(),brand=g('fBrand')||'',buyDateRaw=g('fBuyDate')||'',buyPrice=moneyParse(g('fBuyPrice'));
+  const plate=(g('fPlate')||'').toUpperCase(),brand=g('fBrand')||'',buyDateRaw=g('fBuyDate')||'',buyPrice=parseFloat(g('fBuyPrice'))||0;
   const buyDate=normDate(buyDateRaw)||buyDateRaw;
   if(!plate||!brand||!buyDate){notify('❗ Plaka, marka ve alış tarihi zorunlu!','err');return;}
-  const sellDate=normDate(g('fSellDate'))||'',sellPrice=moneyParse(g('fSellPrice'));
+  const sellDate=normDate(g('fSellDate'))||'',sellPrice=parseFloat(g('fSellPrice'))||0;
   const v={
     id:editId||uid(),vtype:_curVT,plate,brand,
     model:g('fModel')||'',year:g('fYear')||'',km:parseFloat(g('fKm'))||0,
@@ -888,7 +846,7 @@ function delVehicle(id){if(!confirm('Bu araç silinsin mi?'))return;vehicles=veh
 // ── EXPENSES ─────────────────────────────────────────────────────
 const EICO={'Tamir / Bakım':'🔧','Boya / Kaporta':'🎨','Lastik':'🔄','Döşeme / Detay':'✨','Ekspertiz':'🔍','Sigorta':'🛡️','Vergi / Harç':'📋','Taşıma / Çekici':'🚛','Diğer':'💰'};
 function addExp(){
-  const type=document.getElementById('fExpType').value,amt=moneyParse(document.getElementById('fExpAmt').value);
+  const type=document.getElementById('fExpType').value,amt=parseFloat(document.getElementById('fExpAmt').value)||0;
   const date=document.getElementById('fExpDate').value||today(),desc=document.getElementById('fExpDesc').value.trim();
   if(!type||!amt){notify('❗ Tür ve tutar zorunlu','err');return;}
   tempExp.push({id:uid(),type,amount:amt,date,desc});
@@ -898,7 +856,7 @@ function addExp(){
 function renderExpList(){
   const total=tempExp.reduce((s,e)=>s+e.amount,0);
   document.getElementById('expList').innerHTML=tempExp.length
-    ?tempExp.map(e=>`<div class="exp-item"><span class="exp-ico">${EICO[e.type]||'💰'}</span><div class="exp-info"><div class="exp-desc">${e.type}${e.desc?' - '+e.desc:''}</div><div class="exp-date">${fd(e.date)}</div></div><span class="exp-amt">₺${fmt(e.amount)}</span><button class="exp-del" onclick="removeExp('${e.id}')">✕</button></div>`).join('')+`<div style="text-align:right;font-size:12px;color:var(--t2);padding:6px 2px">Toplam: <strong style="color:var(--accent2)">₺${fmt(total)}</strong></div>`
+    ?tempExp.map(e=>`<div class="exp-item"><span class="exp-ico">${EICO[e.type]||'💰'}</span><div class="exp-info"><div class="exp-desc">${e.type}${e.desc?' — '+e.desc:''}</div><div class="exp-date">${fd(e.date)}</div></div><span class="exp-amt">₺${fmt(e.amount)}</span><button class="exp-del" onclick="removeExp('${e.id}')">✕</button></div>`).join('')+`<div style="text-align:right;font-size:12px;color:var(--t2);padding:6px 2px">Toplam: <strong style="color:var(--accent2)">₺${fmt(total)}</strong></div>`
     :'';
 }
 function removeExp(id){tempExp=tempExp.filter(e=>e.id!==id);renderExpList();}
@@ -907,28 +865,28 @@ function removeExp(id){tempExp=tempExp.filter(e=>e.id!==id);renderExpList();}
 function openDetail(id){
   const v=vehicles.find(x=>x.id===id);if(!v)return;
   detailId=id;
-  document.getElementById('dtlTitle').textContent=v.plate+' - '+v.brand+' '+(v.model||'');
+  document.getElementById('dtlTitle').textContent=v.plate+' — '+v.brand+' '+(v.model||'');
   const exp=tExp(v),profit=v.status==='satildi'?(v.sellPrice||0)-(v.buyPrice||0)-exp:null;
   document.getElementById('dtlBody').innerHTML=`
     <div class="dtl-grid">
       <div class="dtl-row"><span class="dtl-k">Plaka</span><span class="dtl-v" style="font-family:'JetBrains Mono',monospace;color:var(--accent)">${v.plate}</span></div>
       <div class="dtl-row"><span class="dtl-k">Araç Türü</span><span class="dtl-v">${vtb(v)}</span></div>
       <div class="dtl-row"><span class="dtl-k">Marka / Model</span><span class="dtl-v">${v.brand} ${v.model||''}</span></div>
-      <div class="dtl-row"><span class="dtl-k">Yıl</span><span class="dtl-v">${v.year||'-'}</span></div>
-      <div class="dtl-row"><span class="dtl-k">KM</span><span class="dtl-v">${v.km?fmt(v.km)+' km':'-'}</span></div>
-      <div class="dtl-row"><span class="dtl-k">Renk</span><span class="dtl-v">${v.color||'-'}</span></div>
-      <div class="dtl-row"><span class="dtl-k">Yakıt / Vites</span><span class="dtl-v">${[v.fuel,v.gear,v.body].filter(Boolean).join(' / ')||'-'}</span></div>
+      <div class="dtl-row"><span class="dtl-k">Yıl</span><span class="dtl-v">${v.year||'—'}</span></div>
+      <div class="dtl-row"><span class="dtl-k">KM</span><span class="dtl-v">${v.km?fmt(v.km)+' km':'—'}</span></div>
+      <div class="dtl-row"><span class="dtl-k">Renk</span><span class="dtl-v">${v.color||'—'}</span></div>
+      <div class="dtl-row"><span class="dtl-k">Yakıt / Vites</span><span class="dtl-v">${[v.fuel,v.gear,v.body].filter(Boolean).join(' / ')||'—'}</span></div>
       <div class="dtl-row"><span class="dtl-k">Alış Tarihi</span><span class="dtl-v">${fd(v.buyDate)}</span></div>
       <div class="dtl-row"><span class="dtl-k">Alış Fiyatı</span><span class="dtl-v mono">₺${fmt(v.buyPrice)}</span></div>
-      <div class="dtl-row"><span class="dtl-k">Alınan Kişi</span><span class="dtl-v">${v.seller||'-'}</span></div>
-      <div class="dtl-row"><span class="dtl-k">Alınan Şehir</span><span class="dtl-v">${v.buyCity||'-'}</span></div>
+      <div class="dtl-row"><span class="dtl-k">Alınan Kişi</span><span class="dtl-v">${v.seller||'—'}</span></div>
+      <div class="dtl-row"><span class="dtl-k">Alınan Şehir</span><span class="dtl-v">${v.buyCity||'—'}</span></div>
       ${v.sellerNote?`<div class="dtl-row full"><span class="dtl-k">Alınan Kişi Tel/Not</span><span class="dtl-v">${v.sellerNote}</span></div>`:''}
-      ${v.vtype==='konsinye'?`<div class="dtl-row full"><span class="dtl-k">Konsinye Sahibi</span><span class="dtl-v" style="color:var(--purple)">${v.konsinyeOwner||'-'}</span></div>`:''}
+      ${v.vtype==='konsinye'?`<div class="dtl-row full"><span class="dtl-k">Konsinye Sahibi</span><span class="dtl-v" style="color:var(--purple)">${v.konsinyeOwner||'—'}</span></div>`:''}
       ${v.status==='satildi'?`
         <div class="dtl-row"><span class="dtl-k">Satış Tarihi</span><span class="dtl-v">${fd(v.sellDate)}</span></div>
         <div class="dtl-row"><span class="dtl-k">Satış Fiyatı</span><span class="dtl-v mono pos">₺${fmt(v.sellPrice)}</span></div>
-        <div class="dtl-row"><span class="dtl-k">Satılan Kişi</span><span class="dtl-v">${v.buyer||'-'}</span></div>
-        <div class="dtl-row"><span class="dtl-k">Satılan Kişi Tel</span><span class="dtl-v">${v.buyerTel||'-'}</span></div>
+        <div class="dtl-row"><span class="dtl-k">Satılan Kişi</span><span class="dtl-v">${v.buyer||'—'}</span></div>
+        <div class="dtl-row"><span class="dtl-k">Satılan Kişi Tel</span><span class="dtl-v">${v.buyerTel||'—'}</span></div>
         ${v.sellNote?`<div class="dtl-row full"><span class="dtl-k">Satış Notu</span><span class="dtl-v">${v.sellNote}</span></div>`:''}
       `:''}
       <div class="dtl-row"><span class="dtl-k">Araç Masrafı</span><span class="dtl-v mono" style="color:var(--accent2)">₺${fmt(exp)}</span></div>
@@ -936,7 +894,7 @@ function openDetail(id){
       ${profit!==null?`<div class="dtl-row full"><span class="dtl-k">Brüt Kâr</span><span class="dtl-v mono ${profit>=0?'pos':'neg'}" style="font-size:20px">${profit>=0?'+':''}₺${fmt(profit)}</span></div>`:''}
       ${v.notes?`<div class="dtl-row full"><span class="dtl-k">Notlar</span><span class="dtl-v" style="color:var(--t2);white-space:pre-wrap">${v.notes}</span></div>`:''}
     </div>
-    ${(v.expenses||[]).length?`<div style="margin-top:16px"><div class="fsec-ttl" style="margin-top:0">MASRAFLAR - Toplam ₺${fmt(exp)}</div><div class="exp-list">${v.expenses.map(e=>`<div class="exp-item"><span class="exp-ico">${EICO[e.type]||'💰'}</span><div class="exp-info"><div class="exp-desc">${e.type||''}${e.desc?' - '+e.desc:''}</div><div class="exp-date">${fd(e.date)}</div></div><span class="exp-amt">₺${fmt(e.amount)}</span></div>`).join('')}</div></div>`:''}
+    ${(v.expenses||[]).length?`<div style="margin-top:16px"><div class="fsec-ttl" style="margin-top:0">MASRAFLAR — Toplam ₺${fmt(exp)}</div><div class="exp-list">${v.expenses.map(e=>`<div class="exp-item"><span class="exp-ico">${EICO[e.type]||'💰'}</span><div class="exp-info"><div class="exp-desc">${e.type||''}${e.desc?' — '+e.desc:''}</div><div class="exp-date">${fd(e.date)}</div></div><span class="exp-amt">₺${fmt(e.amount)}</span></div>`).join('')}</div></div>`:''}
   `;
   openM('detailModal');
 }
@@ -1086,7 +1044,7 @@ function cdp(a,b){
 }
 function fd(v){
   const d=parseDateSafe(v);
-  return d?d.toLocaleDateString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric'}):'-';
+  return d?d.toLocaleDateString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric'}):'—';
 }
 function normDate(v){
   const d=parseDateSafe(v);
@@ -1112,28 +1070,10 @@ function set(id,html){const el=document.getElementById(id);if(el)el.innerHTML=ht
 function emptyRow(cols,msg='Kayıt bulunamadı'){return `<tr><td colspan="${cols}"><div class="empty"><div class="empty-ico">🔍</div><div class="empty-txt">${msg}</div></div></td></tr>`;}
 function nada(){return '<div style="color:var(--t3);font-size:13px;padding:10px 0">Yeterli veri yok.</div>';}
 
-function moneyDigits(v){return String(v??'').replace(/\D/g,'');}
-function moneyFormatInputValue(v){const digits=moneyDigits(v);return digits?Number(digits).toLocaleString('tr-TR'):'';}
-function moneyParse(v){const digits=moneyDigits(v);return digits?Number(digits):0;}
-function bindMoneyInput(id){
-  const el=document.getElementById(id);
-  if(!el || el.dataset.moneyBound==='1') return;
-  el.dataset.moneyBound='1';
-  const apply=()=>{ el.value=moneyFormatInputValue(el.value); };
-  el.addEventListener('input', apply);
-  el.addEventListener('blur', apply);
-  el.addEventListener('focus', ()=>{
-    const len=el.value.length;
-    requestAnimationFrame(()=>{ try{ el.setSelectionRange(len,len); }catch(e){} });
-  });
-}
-function bindMoneyInputs(){['fBuyPrice','fSellPrice','fExpAmt','gTutar'].forEach(bindMoneyInput);}
-
 // ── INIT ────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async ()=>{
   renderAll();
   renderSP();
-  bindMoneyInputs();
   await loadFromSheets(false);
 });
 </script>
