@@ -145,6 +145,27 @@ textarea.finp{resize:vertical;min-height:75px}
 .fsec{margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
 .fsec-ttl{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .fsec-ttl::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* BELGE OCR */
+.doc-auto-card{background:linear-gradient(180deg,rgba(232,160,32,.08),rgba(232,160,32,.025));border:1px solid rgba(232,160,32,.22);border-radius:14px;padding:14px;margin-bottom:16px}
+.doc-auto-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.doc-auto-title{font-size:12px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:1.2px}
+.doc-auto-desc{font-size:12px;color:var(--t2);margin-top:3px;line-height:1.45}
+.doc-upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.doc-upload{background:var(--s2);border:1px dashed var(--border2);border-radius:12px;padding:11px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.doc-upload label{font-size:11px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.7px}
+.doc-upload input{font-size:12px;color:var(--t2);max-width:100%}
+.doc-actions{display:flex;align-items:center;gap:8px;margin-top:11px;flex-wrap:wrap}
+.doc-status{font-size:12px;color:var(--t3);line-height:1.35}
+.doc-result{display:none;margin-top:12px;background:rgba(0,0,0,.18);border:1px solid var(--border);border-radius:12px;padding:10px;max-height:220px;overflow:auto}
+.doc-result.open{display:block}
+.doc-result-row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border);padding:7px 0;font-size:12px}
+.doc-result-row:last-child{border-bottom:none}
+.doc-result-k{color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.doc-result-v{color:var(--text);text-align:right;font-family:'JetBrains Mono',monospace}
+.ocr-filled{border-color:var(--accent)!important;box-shadow:0 0 0 3px rgba(232,160,32,.08)!important}
+@media(max-width:640px){.doc-upload-grid{grid-template-columns:1fr}}
+
 /* ARAÇ TÜRÜ */
 .vtype-wrap{display:flex;gap:10px;margin-bottom:4px}
 .vtype-btn{flex:1;padding:12px;border:2px solid var(--border);border-radius:var(--r);background:var(--s2);color:var(--t2);cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;text-align:center;transition:all .2s}
@@ -506,6 +527,31 @@ textarea.finp{resize:vertical;min-height:75px}
   <div class="modal">
     <div class="modal-hdr"><div class="modal-title" id="mTitle">YENİ ARAÇ EKLE</div><button class="modal-close" onclick="closeM('vehicleModal')">✕</button></div>
     <div class="modal-body">
+
+      <div class="doc-auto-card" id="purchaseDocCard">
+        <div class="doc-auto-head">
+          <div>
+            <div class="doc-auto-title">📄 Belge ile Bilgi Girişi</div>
+            <div class="doc-auto-desc">Ruhsat ve noter alış belgesini yükle. Sistem bilgileri okur, formu otomatik doldurur. Kaydetmeden önce mutlaka kontrol et.</div>
+          </div>
+        </div>
+        <div class="doc-upload-grid">
+          <div class="doc-upload">
+            <label>Ruhsat</label>
+            <input type="file" id="docRuhsat" accept="image/*,application/pdf">
+          </div>
+          <div class="doc-upload">
+            <label>Noter Alış Belgesi</label>
+            <input type="file" id="docAlis" accept="image/*,application/pdf">
+          </div>
+        </div>
+        <div class="doc-actions">
+          <button type="button" class="btn btn-ghost btn-sm" onclick="scanPurchaseDocs()">🔍 Belgeleri Tara ve Formu Doldur</button>
+          <span class="doc-status" id="purchaseDocStatus">PDF/JPG/PNG desteklenir.</span>
+        </div>
+        <div class="doc-result" id="purchaseDocResult"></div>
+      </div>
+
       <div class="fsec-ttl" style="margin-top:0">ARAÇ TÜRÜ</div>
       <div class="vtype-wrap">
         <button class="vtype-btn on-galeri" id="vt-galeri" onclick="setVT('galeri')">🏪 Galeri Aracı</button>
@@ -540,6 +586,15 @@ textarea.finp{resize:vertical;min-height:75px}
         <div class="fg"><label class="flbl">Yakıt</label><select class="finp" id="fFuel"><option value="">—</option><option>Benzin</option><option>Dizel</option><option>LPG</option><option>Hibrit</option><option>Elektrik</option></select></div>
         <div class="fg"><label class="flbl">Vites</label><select class="finp" id="fGear"><option value="">—</option><option>Manuel</option><option>Otomatik</option><option>Yarı Otomatik</option></select></div>
         <div class="fg"><label class="flbl">Kasa</label><select class="finp" id="fBody"><option value="">—</option><option>Sedan</option><option>Hatchback</option><option>SUV</option><option>Pickup</option><option>Minivan</option><option>Coupe</option><option>Cabrio</option></select></div>
+        <div class="fg"><label class="flbl">Şasi No</label><input class="finp" id="fChassisNo" placeholder="Şasi numarası..."></div>
+        <div class="fg"><label class="flbl">Motor No</label><input class="finp" id="fEngineNo" placeholder="Motor numarası..."></div>
+        <div class="fg"><label class="flbl">Muayene Geçerlilik Tarihi</label>
+          <div class="dp-input-wrap">
+            <span class="dp-ico">📅</span>
+            <button type="button" class="dp-trigger empty" id="fInspectionBtn" onclick="openDP('fInspectionValidUntil','fInspectionBtn')">Tarih seç...</button>
+          </div>
+          <input type="hidden" id="fInspectionValidUntil">
+        </div>
       </div>
 
       <div class="fsec"><div class="fsec-ttl">ALIŞ BİLGİLERİ</div>
@@ -554,11 +609,29 @@ textarea.finp{resize:vertical;min-height:75px}
           <div class="fg"><label class="flbl">Alış Fiyatı (₺) *</label><input class="finp" type="text" id="fBuyPrice" placeholder="350000" inputmode="numeric" autocomplete="off"></div>
           <div class="fg"><label class="flbl">Alınan Kişi / Firma</label><input class="finp" id="fSeller" placeholder="Ali Yılmaz..." autocomplete="off" oninput="acIn('fSeller','ac-seller',getSellers)" onfocus="acIn('fSeller','ac-seller',getSellers)"><div class="ac-drop" id="ac-seller"></div></div>
           <div class="fg"><label class="flbl">Alınan Şehir</label><input class="finp" id="fBuyCity" placeholder="İstanbul, Ankara..."></div>
+          <div class="fg"><label class="flbl">Alış Belgesi KM</label><input class="finp" type="number" id="fBuyDocumentKm" placeholder="Noter belgesindeki km"></div>
           <div class="fg full"><label class="flbl">Alınan Kişi Tel / Not</label><input class="finp" id="fSellerNote" placeholder="0532 xxx xx xx..."></div>
         </div>
       </div>
 
       <div class="fsec"><div class="fsec-ttl">SATIŞ BİLGİLERİ <span style="color:var(--t3);font-size:9px;text-transform:none;font-weight:400">(doldurulursa otomatik satıldı)</span></div>
+
+        <div class="doc-auto-card" style="margin-top:0;margin-bottom:14px">
+          <div class="doc-auto-title">📄 Satış Evrakı ile Bilgi Girişi</div>
+          <div class="doc-auto-desc">Noter satış evrakını yükle. Satış tarihi, satış fiyatı, alıcı ve satış belgesi KM alanları otomatik doldurulur.</div>
+          <div class="doc-upload-grid" style="grid-template-columns:1fr">
+            <div class="doc-upload">
+              <label>Noter Satış Evrakı</label>
+              <input type="file" id="docSatis" accept="image/*,application/pdf">
+            </div>
+          </div>
+          <div class="doc-actions">
+            <button type="button" class="btn btn-ghost btn-sm" onclick="scanSaleDoc()">🔍 Satış Evrakını Tara</button>
+            <span class="doc-status" id="saleDocStatus">Satıştan sonra doldurulabilir.</span>
+          </div>
+          <div class="doc-result" id="saleDocResult"></div>
+        </div>
+
         <div class="fg2">
           <div class="fg"><label class="flbl">Satış Tarihi</label>
             <div class="dp-input-wrap">
@@ -570,6 +643,7 @@ textarea.finp{resize:vertical;min-height:75px}
           <div class="fg"><label class="flbl">Satış Fiyatı (₺)</label><input class="finp" type="text" id="fSellPrice" placeholder="420000" inputmode="numeric" autocomplete="off"></div>
           <div class="fg"><label class="flbl">Satılan Kişi</label><input class="finp" id="fBuyer" placeholder="Mehmet Demir..." autocomplete="off" oninput="acIn('fBuyer','ac-buyer',getBuyers)" onfocus="acIn('fBuyer','ac-buyer',getBuyers)"><div class="ac-drop" id="ac-buyer"></div></div>
           <div class="fg"><label class="flbl">Satılan Kişi Tel</label><input class="finp" id="fBuyerTel" placeholder="0532 xxx xx xx..."></div>
+          <div class="fg"><label class="flbl">Satış Belgesi KM</label><input class="finp" type="number" id="fSellDocumentKm" placeholder="Noter belgesindeki km"></div>
           <div class="fg full"><label class="flbl">Satış Notu</label><textarea class="finp" id="fSellNote" placeholder="Garanti, eksik parça..."></textarea></div>
         </div>
       </div>
@@ -1020,6 +1094,7 @@ function openAddModal(){
   clearForm();setVT('galeri');
   dpSetVal('fBuyDate','fBuyDateBtn',today());
   dpSetVal('fSellDate','fSellDateBtn','');
+  dpSetVal('fInspectionValidUntil','fInspectionBtn','');
   dpSetVal('fExpDate','fExpDateBtn',today());
   renderExpList();bindMoneyInputs();openM('vehicleModal');
 }
@@ -1029,10 +1104,11 @@ function editVehicle(id){
   document.getElementById('mTitle').textContent='DÜZENLE — '+v.plate;
   setVT(v.vtype||'galeri');
   document.getElementById('fKoOwner').value=v.konsinyeOwner||'';
-  const FM={fPlate:'plate',fBrand:'brand',fModel:'model',fKm:'km',fBuyPrice:'buyPrice',fSeller:'seller',fBuyCity:'buyCity',fSellerNote:'sellerNote',fSellPrice:'sellPrice',fBuyer:'buyer',fBuyerTel:'buyerTel',fSellNote:'sellNote',fNotes:'notes',fColor:'color',fFuel:'fuel',fGear:'gear',fBody:'body'};
+  const FM={fPlate:'plate',fBrand:'brand',fModel:'model',fKm:'km',fBuyPrice:'buyPrice',fSeller:'seller',fBuyCity:'buyCity',fSellerNote:'sellerNote',fBuyDocumentKm:'buyDocumentKm',fSellPrice:'sellPrice',fBuyer:'buyer',fBuyerTel:'buyerTel',fSellNote:'sellNote',fSellDocumentKm:'sellDocumentKm',fNotes:'notes',fColor:'color',fFuel:'fuel',fGear:'gear',fBody:'body',fChassisNo:'chassisNo',fEngineNo:'engineNo'};
   Object.entries(FM).forEach(([el,key])=>{const e=document.getElementById(el);if(!e)return; const raw=v[key]||''; e.value=['fBuyPrice','fSellPrice'].includes(el)?moneyFormatInputValue(raw):raw;});
   dpSetVal('fBuyDate','fBuyDateBtn',normDate(v.buyDate));
   dpSetVal('fSellDate','fSellDateBtn',normDate(v.sellDate));
+  dpSetVal('fInspectionValidUntil','fInspectionBtn',normDate(v.inspectionValidUntil));
   dpSetVal('fExpDate','fExpDateBtn',today());
   document.getElementById('fYear').value=v.year||'';
   tempExp=[...(v.expenses||[])];renderExpList();bindMoneyInputs();closeM('detailModal');openM('vehicleModal');
@@ -1049,8 +1125,9 @@ function saveVehicle(){
     id:editId||uid(),vtype:_curVT,plate,brand,
     model:g('fModel')||'',year:g('fYear')||'',km:parseFloat(g('fKm'))||0,
     color:g('fColor')||'',fuel:g('fFuel')||'',gear:g('fGear')||'',body:g('fBody')||'',
-    buyDate:normDate(buyDate)||buyDate,buyPrice,seller:g('fSeller')||'',buyCity:g('fBuyCity')||'',sellerNote:g('fSellerNote')||'',
-    sellDate,sellPrice,buyer:g('fBuyer')||'',buyerTel:g('fBuyerTel')||'',sellNote:g('fSellNote')||'',
+    chassisNo:g('fChassisNo')||'',engineNo:g('fEngineNo')||'',inspectionValidUntil:normDate(g('fInspectionValidUntil'))||'',
+    buyDate:normDate(buyDate)||buyDate,buyPrice,seller:g('fSeller')||'',buyCity:g('fBuyCity')||'',sellerNote:g('fSellerNote')||'',buyDocumentKm:parseFloat(g('fBuyDocumentKm'))||0,
+    sellDate,sellPrice,buyer:g('fBuyer')||'',buyerTel:g('fBuyerTel')||'',sellNote:g('fSellNote')||'',sellDocumentKm:parseFloat(g('fSellDocumentKm'))||0,
     notes:g('fNotes')||'',
     konsinyeOwner:_curVT==='konsinye'?(g('fKoOwner')||''):'',
     expenses:[...tempExp],
@@ -1157,6 +1234,136 @@ async function apiPost(body){
   const r=await fetch(SHEETS_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});
   return await r.json();
 }
+
+// ── BELGE OCR / GEMINI ───────────────────────────────────────────
+async function fileToPayload(file){
+  if(!file)return null;
+  const maxMB=12;
+  if(file.size > maxMB*1024*1024) throw new Error(file.name+' dosyası çok büyük. Maksimum '+maxMB+' MB önerilir.');
+  const dataUrl=await new Promise((resolve,reject)=>{
+    const fr=new FileReader();
+    fr.onload=()=>resolve(fr.result);
+    fr.onerror=()=>reject(new Error(file.name+' okunamadı'));
+    fr.readAsDataURL(file);
+  });
+  const base64=String(dataUrl).split(',')[1]||'';
+  return {name:file.name,mimeType:file.type||guessMime(file.name),base64};
+}
+function guessMime(name){
+  const n=(name||'').toLowerCase();
+  if(n.endsWith('.pdf'))return 'application/pdf';
+  if(n.endsWith('.png'))return 'image/png';
+  if(n.endsWith('.webp'))return 'image/webp';
+  return 'image/jpeg';
+}
+function setDocStatus(id,msg,type='info'){
+  const el=document.getElementById(id);if(!el)return;
+  el.textContent=msg; el.style.color=type==='err'?'var(--red)':type==='ok'?'var(--green)':'var(--t3)';
+}
+function showDocResult(id,data){
+  const box=document.getElementById(id); if(!box)return;
+  const flat=[];
+  function walk(prefix,obj){
+    Object.entries(obj||{}).forEach(([k,v])=>{
+      if(k==='confidence'||k==='warnings')return;
+      if(v&&typeof v==='object'&&!Array.isArray(v))walk(prefix?prefix+'.'+k:k,v);
+      else if(v!==''&&v!==null&&v!==undefined)flat.push([prefix?prefix+'.'+k:k,v]);
+    });
+  }
+  walk('',data||{});
+  box.innerHTML=flat.length?flat.slice(0,24).map(([k,v])=>`<div class="doc-result-row"><span class="doc-result-k">${esc(k)}</span><span class="doc-result-v">${esc(String(v))}</span></div>`).join(''):'<div class="doc-status">Okunan veri bulunamadı.</div>';
+  box.classList.add('open');
+}
+function setInputVal(id,val){
+  if(val===undefined||val===null||val==='')return;
+  const el=document.getElementById(id); if(!el)return;
+  el.value=String(val);
+  el.classList.add('ocr-filled');
+  setTimeout(()=>el.classList.remove('ocr-filled'),2200);
+}
+function setSelectVal(id,val){
+  if(!val)return;
+  const el=document.getElementById(id); if(!el)return;
+  const target=String(val).trim().toLowerCase();
+  let found=false;
+  [...el.options].forEach((opt,i)=>{if(opt.text.trim().toLowerCase()===target||opt.value.trim().toLowerCase()===target){el.selectedIndex=i;found=true;}});
+  el.classList.add('ocr-filled'); setTimeout(()=>el.classList.remove('ocr-filled'),2200);
+}
+function setDateVal(hiddenId,btnId,val){
+  const d=normDate(val)||val; if(!d)return;
+  dpSetVal(hiddenId,btnId,d);
+  const btn=document.getElementById(btnId); if(btn){btn.classList.add('ocr-filled'); setTimeout(()=>btn.classList.remove('ocr-filled'),2200);}
+}
+function applyPurchaseExtraction(data){
+  const v=data.vehicle||{}, p=data.purchase||{};
+  setInputVal('fPlate',v.plate);
+  setInputVal('fBrand',v.brand);
+  setInputVal('fModel',v.model);
+  setInputVal('fYear',v.year);
+  setInputVal('fKm',v.km);
+  setSelectVal('fColor',v.color);
+  setSelectVal('fFuel',v.fuel);
+  setSelectVal('fGear',v.gear);
+  setSelectVal('fBody',v.body);
+  setInputVal('fChassisNo',v.chassisNo);
+  setInputVal('fEngineNo',v.engineNo);
+  setDateVal('fInspectionValidUntil','fInspectionBtn',v.inspectionValidUntil);
+  setDateVal('fBuyDate','fBuyDateBtn',p.buyDate);
+  if(p.buyPrice!==undefined&&p.buyPrice!==null&&p.buyPrice!=='')setInputVal('fBuyPrice',moneyFormatInputValue(p.buyPrice));
+  setInputVal('fSeller',p.seller);
+  setInputVal('fBuyDocumentKm',p.buyDocumentKm);
+  if(p.notaryInfo){
+    const cur=document.getElementById('fSellerNote')?.value||'';
+    setInputVal('fSellerNote',(cur?cur+' | ':'')+p.notaryInfo);
+  }
+}
+function applySaleExtraction(data){
+  const s=data.sale||{};
+  setDateVal('fSellDate','fSellDateBtn',s.sellDate);
+  if(s.sellPrice!==undefined&&s.sellPrice!==null&&s.sellPrice!=='')setInputVal('fSellPrice',moneyFormatInputValue(s.sellPrice));
+  setInputVal('fBuyer',s.buyer);
+  setInputVal('fSellDocumentKm',s.sellDocumentKm);
+  if(s.notaryInfo){
+    const cur=document.getElementById('fSellNote')?.value||'';
+    setInputVal('fSellNote',(cur?cur+'\n':'')+s.notaryInfo);
+  }
+}
+async function scanPurchaseDocs(){
+  try{
+    const ruhsat=document.getElementById('docRuhsat')?.files?.[0];
+    const alis=document.getElementById('docAlis')?.files?.[0];
+    if(!ruhsat&&!alis){notify('Önce ruhsat veya alış belgesi seç.','err');return;}
+    setDocStatus('purchaseDocStatus','Belgeler okunuyor...');
+    const files=(await Promise.all([fileToPayload(ruhsat),fileToPayload(alis)])).filter(Boolean);
+    const data=await apiPost({action:'extractPurchaseDocs',files});
+    if(data?.error)throw new Error(data.error);
+    applyPurchaseExtraction(data);
+    showDocResult('purchaseDocResult',data);
+    setDocStatus('purchaseDocStatus','Okundu. Lütfen alanları kontrol edip kaydet.','ok');
+    notify('📄 Belge bilgileri forma aktarıldı','ok');
+  }catch(e){
+    setDocStatus('purchaseDocStatus',e.message||'Belge okunamadı','err');
+    notify('OCR hatası: '+(e.message||'Belge okunamadı'),'err');
+  }
+}
+async function scanSaleDoc(){
+  try{
+    const satis=document.getElementById('docSatis')?.files?.[0];
+    if(!satis){notify('Önce satış evrakı seç.','err');return;}
+    setDocStatus('saleDocStatus','Satış evrakı okunuyor...');
+    const files=[await fileToPayload(satis)].filter(Boolean);
+    const data=await apiPost({action:'extractSaleDoc',files});
+    if(data?.error)throw new Error(data.error);
+    applySaleExtraction(data);
+    showDocResult('saleDocResult',data);
+    setDocStatus('saleDocStatus','Okundu. Lütfen satış bilgilerini kontrol et.','ok');
+    notify('📄 Satış evrakı forma aktarıldı','ok');
+  }catch(e){
+    setDocStatus('saleDocStatus',e.message||'Satış evrakı okunamadı','err');
+    notify('OCR hatası: '+(e.message||'Satış evrakı okunamadı'),'err');
+  }
+}
+
 
 // ── FILTERS & EXPORT ─────────────────────────────────────────────
 function updateDropdowns(){
